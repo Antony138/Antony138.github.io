@@ -340,178 +340,18 @@
       
         
           
-            <p>先以一图总结：</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/298822-a2eb8681c3678f5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Atttributes"></p>
-<p>以下：「attribute(s)」，「特性」是指同一事物(都指<code>@property</code>后面括号内的单词)。</p>
-<p>用Objective-C做过开发的朋友都知道，类里面的属性(可以近似地理解为类的变量)是用<code>@property</code>关键字定义的，然后<code>@property</code>后面的括号，会写上若干「特性(attribute)」，后面跟数据类型、属性名称。如：</p>
-<p><code>@property (copy, nonatomic) NSString *name;</code></p>
-<p>写OC良久，对括号内的这些attributes，还是一知半解、不知其然，亦不知其所以然。用的时候就照葫芦画瓢。</p>
-<p>现在大伙儿慢慢转向苹果的新开发语言Swift，似乎亦不必花太多时间在Objective-C上。</p>
-<p>不过那种一知半解，不明就里的感觉，有点如鲠在喉，不甚舒服，所以花了点时间，research了一番：</p>
-<h2 id="为什么要有-property？"><a href="#为什么要有-property？" class="headerlink" title="为什么要有@property？"></a>为什么要有@property？</h2><p>要搞清楚「特性」，先搞清楚<code>@property</code>，为什么要有<code>@property</code>？</p>
-<p>在2006年的WWDC大会上，苹果发布了Objective-C 2.0，其中就包括<strong><a href="https://en.wikipedia.org/wiki/Objective-C#Properties" target="_blank" rel="external">Properties</a></strong>这个新的语法，把原来的实例变量定义成<strong>Properties(属性)</strong>。这个变化，和以前相比，有什么变化呢？</p>
-<p>###Objective-C2.0之前:</p>
-<p>没有Properties之前，定义实例变量，是这样的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">@interface Person : NSObject &#123;</div><div class="line">@public</div><div class="line">    NSString *name;</div><div class="line">@private</div><div class="line">    int age;</div><div class="line">&#125;</div><div class="line">@end</div></pre></td></tr></table></figure>
-<p>然后在.h文件，声明setter和getter方法(setter和getter统称「accessors/存取器/访问器」)，再在.m文件实现setter和getter，这样就可以封装起来，供其他类访问(取值、赋值)了。</p>
-<p>然而，即使不使用setter和getter，其他类也可以通过<code>-&gt;</code>来直接访问，如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">personA-&gt;name = @&quot;123&quot;;</div><div class="line">   </div><div class="line">NSLog(@&quot;personA-&gt;name:%@&quot;, personA-&gt;name);</div></pre></td></tr></table></figure>
-<p><strong>为什么要getter和setter</strong></p>
-<p>那么，为什么还要如此麻烦地声明和实现setter和getter呢？主要基于三个原因(参考:<a href="https://stackoverflow.com/questions/10425827/please-explain-getter-and-setters-in-objective-c" target="_blank" rel="external">Please explain Getter and Setters in Objective C</a>)：</p>
-<ul>
-<li>可以在getter和setter中添加额外的代码，实现特定的目的。比如赋值前(set)需要实现一些特定的内部计算，或者更新状态，缓存数据等等。</li>
-<li>KVC和KVO都是基于此实现的。</li>
-<li>在非ARC时代，可以在在getter和setter中进行内存管理。</li>
-</ul>
-<p>因此，写getter和setter，可算是Objective-C中「约定俗成」的做法了。（Swift有类似的「Computed Properties/计算属性」）</p>
-<p>所以，在没有<strong>Objective-C2.0</strong>的<code>@property</code>之前，我们几乎需要为所有的实例变量，手动写getter和setter——听听就觉得很可怕，对不对？</p>
-<p>###Objective-C2.0之后:</p>
-<p>庆幸的是，程序员都喜欢「偷懒」，所以就有了2006年Objective-C2.0中的新语法：<strong>Properties</strong>。</p>
-<p><strong>它帮我们自动生成getter和setter</strong>(声明方法，并实现方法。当然，这部分代码并不会出现在你的项目中，是隐藏起来的)。</p>
-<p>不过，<code>@property</code>的写法，也经过数次变迁(新旧写法混在一起，就更让人困惑了)：</p>
-<ul>
-<li>最开始，需要作3件事情：<ul>
-<li>在.h文件，我们用<code>@property</code>声明了属性——这只是帮我们在声明了getter和setter；</li>
-<li>还需要手动声明实例变量(和Objective-C2.0之前一样)</li>
-<li>然后在.m文件，还要用<code>@synthesize</code>自动合成getter和setter的实现。</li>
-</ul>
-</li>
-<li>后来，不需要为属性声明实例变量了，<code>@synthesize</code>会默认自动生成一个「下划线+属性名」的实例变量。比如<code>@property (copy, nonatomic) NSString *name;</code>之后，就可以直接使用<code>_name</code>这个变量了。</li>
-<li>再后来(Xcode4.5开始)，<code>@synthesize</code>也不需要了。一个<code>@property</code>搞定。</li>
-</ul>
-<p>所以，现在我们写<code>@property</code>声明属性，其实是做了三件事</p>
-<ul>
-<li>.h: 声明了getter和setter方法；</li>
-<li>.h: 声明了实例变量(默认:下划线+属性名)；</li>
-<li>.m: 实现了getter和setter方法。</li>
-</ul>
-<p>这就是<code>@property</code>为我们所做的事情。</p>
-<p>知道它为我们做了什么，自然也就能回答：「为什么要有<code>@property</code>？」这个问题了。</p>
-<h2 id="property后面的括号又是怎么回事？"><a href="#property后面的括号又是怎么回事？" class="headerlink" title="@property后面的括号又是怎么回事？"></a>@property后面的括号又是怎么回事？</h2><p><code>@property (copy, nonatomic) NSString *name;</code></p>
-<p>这种写法，大家肯定都写过，不过，后面跟着的这个括号又是什么玩意儿呢？</p>
-<p>官方把括号里面的东西，叫做「attribute/特性」。</p>
-<p>先试一下，把括号里的两个单词都删掉，你会发现，还能正常工作。而事实上，以下两种写法，是等价的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">@property () NSString *name;// 或者@property NSString *name;</div><div class="line">@property (atomic, strong, readwrite) NSString *name;</div></pre></td></tr></table></figure>
-<p>因为attribute主要有三种类型(实际上最多可以写6个特性，后面详述)，每种类型都有默认值。如果什么都不写，系统就会取用默认值（看看，苹果良苦用心，偷偷帮我们做了那么多事情）。</p>
-<p>如上所述，attributes有三种类型：</p>
-<h3 id="1-Atomicity-原子性"><a href="#1-Atomicity-原子性" class="headerlink" title="1.Atomicity(原子性)"></a>1.Atomicity(原子性)</h3><p>比较简单的一句话理解就是：是否给setter和getter加锁(是否保证setter或者getter的每次访问是完整性的)。</p>
-<p>原子性，有atomic和nonatomic两个值可选。默认值是atomic(也就是不写的话，默认是atomic)。</p>
-<ul>
-<li><p><strong>atomic</strong>(默认值)</p>
-<p>使用atomic，在一定程度上可以保证线程安全，「atomic的作用只是给getter和setter加了个锁」。也就是说，有线程在访问setter，其他线程只能等待完成后才能访问。</p>
-<p>它能保证：即使多个线程「同时」访问这个变量，atomic会让你得到一个有意义的值(valid value)。但是不能保证你获得的是哪个值（有可能是被其他线程修改过的值，也有可能是没有修改过的值）。</p>
-</li>
-<li><p><strong>nonatomic</strong></p>
-<p>而用nonatomic，则不保证你获得的是有效值，如果像上面所述，读、写两个线程同时访问变量，有可能会给出一个无意义的垃圾值。</p>
-<p>这样对比，atomic就显得比较鸡肋了，因为它并不能完全保证程序层面的线程安全，又有额外的性能耗费(要对getter和setter进行加锁操作，我验证过，在某个小项目中将所有的nonatomic删除，内存占用平均升高1M左右)。</p>
-<p>所以，你会见到，几乎所有情况，我们都用nonatomic。</p>
-</li>
-</ul>
-<h3 id="2-Access-存取特性"><a href="#2-Access-存取特性" class="headerlink" title="2.Access(存取特性)"></a>2.Access(存取特性)</h3><p>存取特性有<strong>readwrite</strong>(默认值)和<strong>readonly</strong>。</p>
-<p>这个从名字看就很容易理解，定义了这个属性是「只读」，还是「读写」皆可。</p>
-<p>如果是<strong>readwrite</strong>，就是告诉编译器，同时生成getter和setter。如果是<strong>readonly</strong>，只生成getter。</p>
-<h3 id="3-Storage-内存管理特性-管理对象的生命周期的"><a href="#3-Storage-内存管理特性-管理对象的生命周期的" class="headerlink" title="3.Storage(内存管理特性)(管理对象的生命周期的)"></a>3.Storage(内存管理特性)(管理对象的生命周期的)</h3><p>最常用到<strong>strong</strong>、<strong>weak</strong>、<strong>assign</strong>、<strong>copy</strong>4个attributes。（还有一个<strong>retain</strong>，不怎么用了）</p>
-<ul>
-<li><p><strong>strong</strong> (默认值)</p>
-<p>ARC新增的特性。</p>
-<p>表明你需要引用(持有)这个对象(reference to the object)，负责保持这个对象的生命周期。</p>
-<p><strong><em>注意，基本数据类型(非对象类型,如int, float, BOOL)，默认值并不是strong，strong只能用于对象类型。</em></strong></p>
-</li>
-</ul>
-<ul>
-<li><p><strong>weak</strong> </p>
-<p>ARC新增的特性。</p>
-<p>也会给你一个引用(reference/pointer)，指向对象。但是不会主张所有权(claim ownership)。也不会增加retain count。</p>
-<p>如果对象A被销毁，所有指向对象A的弱引用(weak reference)(用weak修饰的属性)，都会自动设置为nil。</p>
-<p>在delegate patterns中常用weak解决strong reference cycles(以前叫retain cycles)问题。</p>
-</li>
-<li><p><strong>copy</strong></p>
-<p>为了说明<strong>copy</strong>，我们先举个栗子：</p>
-<p>我在某个类(class1)中声明两个字符串属性，一个用copy，一个不用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">@property (copy, nonatomic) NSString *nameCopy;</div><div class="line"></div><div class="line">// 或者可以省略strong, 编译器默认取用strong</div><div class="line">@property (strong, nonatomic) NSString *nameNonCopy;</div></pre></td></tr></table></figure>
-<p>在另一个类中，用一个NSMutableString对这两个属性赋值并打印，再修改这个NSMutableString，再打印，看看会发生什么：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">Class1 *testClass1 = [[Class1 alloc] init];</div><div class="line"></div><div class="line">NSMutableString *nameString = [NSMutableString  stringWithFormat:@&quot;Antony&quot;];</div><div class="line"></div><div class="line">// 用赋值NSMutableString给NSString赋值</div><div class="line">testClass1.nameCopy = nameString;</div><div class="line">testClass1.nameNonCopy = nameString;</div><div class="line">   </div><div class="line">NSLog(@&quot;修改nameString前, nameCopy: %@; nameNonCopy: %@&quot;, testClass1.nameCopy, testClass1.nameNonCopy);</div><div class="line"></div><div class="line">[nameString appendString:@&quot;.Wong&quot;];</div><div class="line">   </div><div class="line">NSLog(@&quot;修改nameString后, nameCopy: %@; nameNonCopy: %@&quot;, testClass1.nameCopy, testClass1.nameNonCopy);</div></pre></td></tr></table></figure>
-<p>打印结果是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">修改nameString前, nameCopy: Antony; nameNonCopy: Antony</div><div class="line">修改nameString后, nameCopy: Antony; nameNonCopy: Antony.Wong</div></pre></td></tr></table></figure>
-<p>我只是修改了<code>nameString</code>，为什么<code>testClass1.nameNonCopy</code>的值没改，它也跟着变了？</p>
-<p>因为<code>strong</code>特性，对对象进行引用计数加1，只是对指向对象的指针进行引用计数加1，这时候，<code>nameString</code>和<code>testClass1.nameNonCopy</code>指向的其实是同一个对象(同一块内存)，<code>nameString</code>修改了值，自然影响到<code>testClass1.nameNonCopy</code>。</p>
-<p>而<code>copy</code>这个特性，会在赋值前，复制一个对象，<code>testClass1.nameCopy</code>指向了一个新对象，这时候<code>nameString</code>怎么修改，也不关它啥事了。应用<code>copy</code>特性，系统应该是在setter中进行了如下操作：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">- (void)setNameCopy:(NSString *)nameCopy &#123;</div><div class="line">    _nameCopy = [nameCopy copy];</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>大家了解<code>copy</code>的作用了吧，是为了防止属性被意外修改的。那什么时候要用到<code>copy</code>呢？</p>
-<p>所有有mutable(可变)版本的属性类型，如NSString, NSArray, NSDictionary等等——他们都有可变的版本类型:NSMutableString, NSMutableArray, NSMutableDictionary。这些类型在属性赋值时，右边的值有可能是它们的可变版本。这样就会出现属性值被意外改变的可能。所以它们都应该用<code>copy</code>。</p>
-<p><strong>扩展</strong></p>
-<p>如果不用<code>copy</code>，而是在赋值前，调用copy方法，可以达到同样的目的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 这时候也可以确保nameNonCopy不会被意外修改</div><div class="line">testClass1.nameNonCopy = [nameString copy];</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p> <strong>如果用<code>copy</code>修饰NSMutableString、NSMutableArray会发生什么?</strong></p>
-<p> 如果用<code>copy</code>修饰NSMutableString，在赋值的时候会报如下警告：</p>
-<p> <code>Incompatible pointer types assigning to &#39;NSMutableString *&#39; from &#39;NSString *&#39;</code></p>
-<p> 而如果用<code>copy</code>修饰NSMutableArray，则在调用addObject:时直接crash：</p>
-<p> <code>reason: &#39;-[__NSArray0 addObject:]: unrecognized selector sent to instance 0x1700045c0&#39;</code></p>
-<p> 如果理解了「<code>copy</code>特性，就是在setter中，进行了copy操作」，就很容易知道以上报错的原因：属性在赋值时，调用setter，已经将原本mutable的对象，copy成了immutable的对象(NSMutableString变成NSString，NSMutableArray变成NSArray)。</p>
-<ul>
-<li><p><strong>assign</strong></p>
-<p>是非ARC时代的特性，</p>
-<p>它的作用和<strong>weak</strong>类似，唯一区别是：如果对象A被销毁，所有指向这个对象A的<strong>assign</strong>属性并不会自动设置为nil。这时候这些属性就变成野指针，再访问这些属性，程序就会crash。</p>
-<p>因此，在ARC下，<strong>assign</strong>就变成用于修饰基本数据类型(Primitive Type)，也就是非对象/非指针数据类型，如：int、BOOL、float等。</p>
-<p><strong><em>注意，在非ARC时代，还没有strong的时候。assign是默认值。ARC下，默认值变成strong了。这个要注意一下，否则会引起困扰。</em></strong></p>
-</li>
-<li><p><strong>retain</strong></p>
-<p><strong>retain</strong>是以前非ARC时代的特性，在ARC下并不常用。</p>
-<p>它是<strong>strong</strong>的同义词，两者功能一致。不知道为什么还保留着，这对新手也会造成一定困扰。</p>
-</li>
-</ul>
-<p>所以，总结一下。</p>
-<ul>
-<li>几乎所有情况，都写上<strong>nonatomic</strong>；</li>
-<li>对外「只读」的，写上<strong>readonly</strong></li>
-<li>一般的对象属性，写上<strong>strong</strong>（用<strong>retain</strong>也可以，比较少用）</li>
-<li>需要解决strong reference cycles问题的对象属性，strong改为<strong>weak</strong></li>
-<li>有mutable(可变)版本的对象属性，strong改为<strong>copy</strong></li>
-<li>基本数据类型(int, float, BOOL)(非对象属性)，用<strong>assign</strong></li>
-</ul>
-<h3 id="4-扩展"><a href="#4-扩展" class="headerlink" title="4.扩展"></a>4.扩展</h3><p>其实，除了上面3种经常用到的特性类型，还有2种不太见到。</p>
-<ul>
-<li><p><strong>getter=</strong> 和 <strong>setter=</strong></p>
-<p>按字面意思，很容易理解，就是重命名getter和setter方法。</p>
-<p><a href="https://developer.apple.com/library/content/releasenotes/ObjectiveC/RN-TransitioningToARC/Introduction/Introduction.html" target="_blank" rel="external">Transitioning to ARC Release Notes</a>中写道：</p>
-<blockquote>
-<p>You cannot give an accessor a name that begins with new. This in turn means that you can’t, for example, declare a property whose name begins with new unless you specify a different getter</p>
-</blockquote>
-</li>
-</ul>
-<p> 存取方法不能以<code>new</code>开头，如果你要以<code>new</code>开头命名一个属性：<code>@property (copy, nonatomic) NSString *newName;</code>于是会默认生成一个new开头的getter方法：</p>
-<p> 这时候就会报错：<code>Property follows Cocoa naming convention for returning &#39;owned&#39; objects</code>。</p>
-<p> 解决办法，就是用<strong>getter=</strong>重命名getter方法：</p>
-<p> <code>@property (copy, nonatomic, getter=theNewName) NSString *newName;</code></p>
-<ul>
-<li><p><strong>Nullability</strong></p>
-<ul>
-<li><strong>nullable</strong>：对象「可为空」</li>
-<li><strong>nonnull</strong>：对象「不可为空」</li>
-<li><strong>null_unspecified</strong>：「未指定」</li>
-<li><strong>null_resettable</strong>：稍有点难理解，就是调用setter去reset属性时，可以传入nil，但是getter返回值，不为空。UIView下面的tintColor，就是null_resettable。这样就保证，即使赋值为nil，也会返回一个非空的值。</li>
-</ul>
-<p>为了更好地和Swift混编(配合Swift的optional类型)，在Xcode 6.3，Objective-C新增了一个语言特性，nullability。具体就是以上4个新特性。</p>
-<p>如果设置为<code>null_resettable</code>，则要重写setter或getter其中之一，自己做判断，确保真正返回的值不是nil。否则报警告：<code>Synthesized setter &#39;setName:&#39; for null_resettable property &#39;name&#39; does not handle nil</code></p>
-<p>Nullability的写法如下：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">@property (copy, nullable) NSString *name;</div><div class="line">@property (copy, readonly, nonnull) NSArray *allItems;</div><div class="line"> </div><div class="line">// 也可以将nullable, nonnull, null_unspecified, null_resettable三个修饰语前面加双下划线，用于修饰指针、参数、返回值等(null_resettable只能在属性括号中使用)</div><div class="line">@property (copy, readonly) NSArray * __nonnull allItems;</div></pre></td></tr></table></figure>
-<p>Nullability的默认值：<code>null_unspecified</code>——未指定。如果某个属性填写了Nullability特性(比如写了nonnull)，没有填写Nullability的属性，会出现如下警告：</p>
-<p><code>Pointer is missing a nullability type specifier (_Nonnull, _Nullable, or _Null_unspecified)</code></p>
-<p>但是如果每个属性都一一写上，稍嫌麻烦。而因为大多数属性是<code>nonnull</code>的，所以苹果定义了两个宏，<code>NS_ASSUME_NONNULL_BEGIN</code>和<code>NS_ASSUME_NONNULL_END</code>(两个宏之间，叫做<strong>Audited Regions</strong>)。</p>
-<p>将所有属性包在这两个宏中，就无需写<strong>nonnull</strong>修饰语了，只需要在「可为空」的属性里，写上<strong>nullable</strong>即可：</p>
- <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">NS_ASSUME_NONNULL_BEGIN</div><div class="line">@interface AAPLList : NSObject &lt;NSCoding, NSCopying&gt;</div><div class="line">// 只需要为「不可为空」的参数、属性、返回值加上修饰语nullable即可</div><div class="line">- (nullable AAPLListItem *)itemWithName:(NSString *)name;</div><div class="line">- (NSInteger)indexOfItem:(AAPLListItem *)item;</div><div class="line"></div><div class="line">@property (copy, nullable) NSString *name;</div><div class="line">@property (copy, readonly) NSArray *allItems;</div><div class="line">// ...</div><div class="line">@end</div><div class="line">NS_ASSUME_NONNULL_END</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>所以！综上所述，attribute最多可以写6个进去：1.原子性、2.存取特性、3.内存管理特性、4.重命名getter、5.重命名setter，6.nullability：</p>
-<p><code>@property (nonatomic, readonly, copy, getter=theNewTitle, setter=setTheNewTitle:, nullable) NSString *newTitle;</code></p>
-<p>不过，应该没有谁闲得蛋疼会这样写的。</p>
-<p>最短的写法就是什么都不写，连括号都可以不要：</p>
-<p><code>@property BOOL isOpen;</code></p>
-<p>毕。</p>
+          先以一图总结：
 
-          
+以下：「attribute(s)」，「特性」是指同一事物(都指@property后面括号内的单词)。
+用Objective-C做过开发的朋友都知道，类里面的属性(可以近似地理解为类的变量)是用@property关键字定义的，然后@property后面的括号，会写上若干「特性(att
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/10/17/Objective-C属性-property-的特性-attribute/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -640,108 +480,19 @@
       
         
           
-            <p>这个问题，对于熟悉C语言的人来说，答案很简单。</p>
-<p>不过对我这种不熟悉C语言的人，在坑中「摸索」良久，先后尝试好几种方法。</p>
-<p>其实，生活中很多事情也像编程：解决问题的办法有万千，但某些方法确实是比较优雅的。</p>
-<p>在这个「摸索」的过程中，也是一个蛮有趣的过程，遂记之。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在过去的项目中，所接触到的「协议/指令(protocol/command)」，数据大多是以1个byte(字节)，2个bytes，4个bytes，8个bytes……为单位进行切割组合的。类似如下指令：</p>
-<blockquote>
-<p>xxxCommand:</p>
-<ul>
-<li>[1]commandID# 0xFF // 方括号数字：该数据所占字节(byte)数</li>
-<li>[1]week:<ul>
-<li>bit0:Mon</li>
-<li>bit1:Tue</li>
-<li>bit2:Wed</li>
-<li>bit3:Thu</li>
-<li>bit4:Fri</li>
-<li>bit5:Sat</li>
-<li>bit6:Sun</li>
-<li>bit7:不使用</li>
-</ul>
-</li>
-<li>[4]ip address</li>
-<li>[2]reserved</li>
-<li>[1]checksum</li>
-</ul>
-</blockquote>
-<p>这时候，1 byte的数据，用<code>UInt8</code>接，2 bytes的数据，用<code>UInt16</code>接，4 bytes的数据，用<code>UInt32</code>接——一切都很美好。</p>
-<p>关于<code>UInt8</code>、<code>UInt16</code>、<code>UInt32</code>等数据类型，在<code>MacTypes.h</code>中，有相关说明：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">/********************************************************************************</div><div class="line"></div><div class="line">    Base integer types for all target OS&apos;s and CPU&apos;s</div><div class="line">    </div><div class="line">        UInt8            8-bit unsigned integer </div><div class="line">        SInt8            8-bit signed integer</div><div class="line">        UInt16          16-bit unsigned integer </div><div class="line">        SInt16          16-bit signed integer           </div><div class="line">        UInt32          32-bit unsigned integer </div><div class="line">        SInt32          32-bit signed integer   </div><div class="line">        UInt64          64-bit unsigned integer </div><div class="line">        SInt64          64-bit signed integer   </div><div class="line"></div><div class="line">*********************************************************************************/</div></pre></td></tr></table></figure>
-<p>也有具体定义：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">typedef unsigned char                   UInt8;</div><div class="line">typedef signed char                     SInt8;</div><div class="line">typedef unsigned short                  UInt16;</div><div class="line">typedef signed short                    SInt16;</div></pre></td></tr></table></figure>
-<p>而最近，遇到一种新情况：硬件那边发过来的数据，是3个bytes为单位的数据——有3个bytes的mac地址(截取了mac地址的一半，发送/广播给手机端)，也有3个bytes的大气压数据。类似如下数据格式：</p>
-<blockquote>
-<p>xxxCommand:</p>
-<ul>
-<li>[2]UUID</li>
-<li>[3]mac // 截取了mac地址的一半</li>
-<li>[3]presure // 据闻大气压数值，2 bytes表示不完，4 bytes又太多了，所以定义了3 bytes～</li>
-<li>…</li>
-</ul>
-</blockquote>
-<p>于是，就有了此文的标题：系统没有UInt24，3个bytes的数据，怎么接？（不要怪我问那么白痴的问题）</p>
-<p>先贴出我所认为的「最优雅」解决方案，再描述一下我「踩坑」的心路历程。</p>
-<h2 id="Solution"><a href="#Solution" class="headerlink" title="Solution:"></a>Solution:</h2><h3 id="1-先定义一个UInt24"><a href="#1-先定义一个UInt24" class="headerlink" title="1.先定义一个UInt24"></a>1.先定义一个<code>UInt24</code></h3><p>关于如何定一个<code>UInt24</code>，StackOverFlow上有人提问：<a href="https://stackoverflow.com/questions/7416699/how-to-define-24bit-data-type-in-c/46390088#46390088" target="_blank" rel="external">How to define 24bit data type in C?</a>。</p>
-<p>尝试过某个回答者的做法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">struct int24&#123;</div><div class="line">    unsigned int data : 24;</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>经验证，这个写法不work，因为这个类型还是占4个bytes（用<code>sizeof()</code>函数打印验证），这样拿去接数据，会把别人的那个byte也装过来，后面的数据就会乱掉。</p>
-<p>那试着仿照<code>MacTypes.h</code>里的定义，定义如下：</p>
-<p><code>typedef unsigned char[3] UInt24;</code></p>
-<p>这样OK吗？事实上，也有问题，系统会报如下错误：</p>
-<blockquote>
-<p>Brackets are not allowed here; to declare an array, place the brackets after the identifier. Replace ‘[3] UInt24’ with ‘ UInt24’</p>
-</blockquote>
-<p>报错说得很清楚：方括号放错地方。要定义一个array(数组/数列)，方括号应该放在新定义类型名称的后面：</p>
-<p><code>typedef unsigned char UInt24[3];</code></p>
-<p>这样就OK了。</p>
-<h3 id="2-定义command"><a href="#2-定义command" class="headerlink" title="2.定义command"></a>2.定义command</h3><p>有了对应的「容器」装数据，那接下来可以定义command(指令)了：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">typedef struct __attribute__((packed)) &#123;</div><div class="line">    UInt16 UUID;</div><div class="line">    UInt24 mac; // 用自己定义的UInt24接数据 </div><div class="line">    UInt24 pressure;</div><div class="line">&#125; D2MXxxCommand; // D2M: Device to Mobile phone</div></pre></td></tr></table></figure>
-<p>其实到这里，基本就把问题解决了，后面该干嘛干嘛了。但是在获取到数据，显示出来的过程中，有些写法还是刷新了我的认知（主要还是自己对C语言不熟）。</p>
-<ul>
-<li><p><strong>将mac地址的3个bytes转为十六进制形式的字符串</strong></p>
-<p>一开始我用了很复杂的方法，网上查到的方法也大都比较复杂（下面会有叙述）。</p>
-<p>而实际上，只需要一行就OK了：</p>
-<p><code>NSString *macHexString = [NSString stringWithFormat:@&quot;%02X%02X%02X&quot;, cmd-&gt;mac[0], cmd-&gt;mac[1], cmd-&gt;mac[2]];</code></p>
-<p>正常的占位符应该是<code>%X</code>，而这里中间的<code>02</code>，表示该十六进制数限制固定两位数。</p>
-<p>目的是预防这种情况：当第一个byte是小于16的数，只输出1位。例：<code>0x014B5C</code>，如果是用<code>%X</code>，则只输出<code>14B5C</code>；而用<code>%02X</code>，则可输出<code>014B5C</code>。</p>
-<p>直接用<code>%02X</code>，就无须再额外判断第一个byte长度是否小于1，如果小于1，再在前面补个零……</p>
-<p>备注：这个写法，参考了以前公司boss的写法。</p>
-</li>
-</ul>
-<ul>
-<li><p><strong>将pressure(大气压)的3个byte转为十进制浮点数</strong></p>
-<p>比如，我们用UInt24接了一个数：0x0185B2（大气压），要转换为十进制的浮点数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 大气压值 = 十进制值 / 100 </div><div class="line">float pressure = ((cmd-&gt;pressure[0]&lt;&lt;16) + (cmd-&gt;pressure[1]&lt;&lt;8) + cmd-&gt;pressure[2]) * 0.01;</div></pre></td></tr></table></figure>
-<p>因为大气压的值，同事定义为：该十六进制数的十进制形式再除以100。所以，思路就是将该3个独立的byte组合成一个完整的数，再转十进制就OK了。</p>
-<p><code>cmd-&gt;pressure[0]&lt;&lt;16</code>的意思，就是将<code>pressure</code>中第一个byte左移16bit(位)，也就是左移2个byte(字节)的位置——所以操作完后，<code>pressure</code>中第一个byte，从右往左数，就变成是第三个byte了。如下图所示(将0x01往左移16bit(位))：</p>
-<p><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2017articlesPhotos/leftShift16bit.gif" alt="将0x01往左移16bit(位)"></p>
-<p><code>cmd-&gt;pressure[1]&lt;&lt;8</code>也做了类似的事情，将<code>pressure</code>中第二个byte左移8bit(位)，也就是左移1个byte(字节)的位置，如下图(将0x85往左移8bit(位))：</p>
-<p><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2017articlesPhotos/leftShift8bit.gif" alt="将0x85往左移8bit(位)"></p>
-<p>最后把他们加起来，就是我们要的数了：<code>997.62(Hpa)</code>。</p>
-<p>另外,</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">float pressure = ((cmd-&gt;pressure1 * 65536) + (cmd-&gt;pressure2 * 256) + cmd-&gt;pressure3) * 0.01</div></pre></td></tr></table></figure>
-<p>也有同样的效果，但个人认为这样操作，没有用<code>&lt;&lt;</code>操作符直观易懂。</p>
-</li>
-</ul>
-<p>以上，就是关于「3个bytes, 怎么接?」的回答。</p>
-<p>接下来描述一下踩过的「坑」。</p>
-<h2 id="其他的尝试"><a href="#其他的尝试" class="headerlink" title="其他的尝试:"></a>其他的尝试:</h2><h3 id="1-定义成3个单独的UInt8"><a href="#1-定义成3个单独的UInt8" class="headerlink" title="1.定义成3个单独的UInt8"></a>1.定义成3个单独的<code>UInt8</code></h3><p>最开始想到，就是单独定义3个<code>UInt8</code>来接数据：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">UInt8 pressure1;</div><div class="line">UInt8 pressure2;</div><div class="line">UInt8 pressure3;</div></pre></td></tr></table></figure>
-<p>写完这个还「怨气满满」地想：为什么非得要传3个bytes过来，多一个、少一个不行吗？</p>
-<p>这埋怨虽是戏言，但是从「产品、消费者」的角度思考，又可以延伸到另外一件事：我们写的框架、软件、产品，有一个重要的准绳——「把复杂留给自己，把简单留给客户」。大部分人拿到一个东西，肯定希望是「插电即用」的，并不希望东折腾西捣鼓才能使用。</p>
-<p>扯远了，继续：拿到这3个bytes后，第一反应就是<code>NSData</code>对象——于是就变着法把这三个bytes捣鼓成NSData对象：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// 将3个bytes重新组合起来</div><div class="line">Byte pressureBytes[] = &#123;cmd-&gt;pressure1, cmd-&gt;pressure2, cmd-&gt;pressure3&#125;;</div><div class="line">// 转为NSData</div><div class="line">NSData *pressureData = [NSData dataWithBytes:pressureBytes length:sizeof(pressureBytes)];</div></pre></td></tr></table></figure>
-<p>然后又想办法将NSData对象捣鼓成十六进制字符串，或者是十进制的浮点数——硬生生把一行代码搞定的事情，写成了几十行。</p>
-<h3 id="2-定义成UInt8-mac-3"><a href="#2-定义成UInt8-mac-3" class="headerlink" title="2.定义成UInt8 mac[3]"></a>2.定义成<code>UInt8 mac[3]</code></h3><p>定义成<code>UInt8 mac[3]</code>形式，其实这和最上面定义<code>UInt24</code>是类似的，只是最上面的方法起了一个更易于理解的<code>UInt
-24</code>而已。</p>
-<h3 id="3-用UInt32接数据，再截前面3个bytes"><a href="#3-用UInt32接数据，再截前面3个bytes" class="headerlink" title="3.用UInt32接数据，再截前面3个bytes"></a>3.用<code>UInt32</code>接数据，再截前面3个bytes</h3><p>这种方法也work，不过要注意，<code>UInt32</code>接回来的数据是4bytes，最后一个byte要进行正确处理(正确给到其他需要的地方)，否则后面数据的读取全会乱(少一个byte)。</p>
-<p>另外，还试过定义成<code>char *mac</code>形式，不work，因为<code>sizeof(cmd-&gt;mac)</code>是8，一个指针占用了8 bytes，并不是我们想要的3bytes。</p>
-<p>所以，</p>
-<p>还要继续熟悉C语言。</p>
-<p><strong><em>毕</em></strong></p>
-
-          
+          这个问题，对于熟悉C语言的人来说，答案很简单。
+不过对我这种不熟悉C语言的人，在坑中「摸索」良久，先后尝试好几种方法。
+其实，生活中很多事情也像编程：解决问题的办法有万千，但某些方法确实是比较优雅的。
+在这个「摸索」的过程中，也是一个蛮有趣的过程，遂记之。
+问题在过去的项目中，所接触到的「协议/指令
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/26/3个bytes-怎么接/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -870,10 +621,15 @@
       
         
           
-            <p>Hi guys, I am Antony, the primary school teacher gave me this name. And…<strong>I am looking for FREEDOM</strong>. This is a lyric from a movie episode: <strong><em>Freedom</em></strong>. Oh, the movie’s name: <strong><em>Django Unchained</em></strong>. In Chinses: 被解放的姜戈.</p>
-<p><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/others/WhoAreYou.jpg" alt="Antony"></p>
-
-          
+          Hi guys, I am Antony, the primary school teacher gave me this name. And…I am looking for FREEDOM. This is a lyric from a movie episode: Freedom. Oh, t
+          ...
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2017/09/07/新建一篇文章/#more" rel="contents">
+              Read more &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
