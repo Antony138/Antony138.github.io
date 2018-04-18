@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Technical," />
+  <meta name="keywords" content="UInt24,byte," />
 
 
 
@@ -98,7 +98,7 @@
 
 
 <meta name="description" content="这个问题，对于熟悉C语言的人来说，答案很简单。 不过对我这种不熟悉C语言的人，在坑中「摸索」良久，先后尝试好几种方法。 其实，生活中很多事情也像编程：解决问题的办法有万千，但某些方法确实是比较优雅的。 在这个「摸索」的过程中，也是一个蛮有趣的过程，遂记之。 问题在过去的项目中，所接触到的「协议/指令(protocol/command)」，数据大多是以1个byte(字节)，2个bytes，4个byt">
-<meta name="keywords" content="Technical">
+<meta name="keywords" content="UInt24,byte">
 <meta property="og:type" content="article">
 <meta property="og:title" content="3个bytes, 怎么接?">
 <meta property="og:url" content="https://antony138.github.io/2017/09/26/3个bytes-怎么接/index.html">
@@ -107,7 +107,7 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2017articlesPhotos/leftShift16bit.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2017articlesPhotos/leftShift8bit.gif">
-<meta property="og:updated_time" content="2017-09-26T03:32:51.000Z">
+<meta property="og:updated_time" content="2018-04-18T00:48:57.738Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3个bytes, 怎么接?">
 <meta name="twitter:description" content="这个问题，对于熟悉C语言的人来说，答案很简单。 不过对我这种不熟悉C语言的人，在坑中「摸索」良久，先后尝试好几种方法。 其实，生活中很多事情也像编程：解决问题的办法有万千，但某些方法确实是比较优雅的。 在这个「摸索」的过程中，也是一个蛮有趣的过程，遂记之。 问题在过去的项目中，所接触到的「协议/指令(protocol/command)」，数据大多是以1个byte(字节)，2个bytes，4个byt">
@@ -212,6 +212,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -303,6 +323,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Technical/" itemprop="url" rel="index">
+                    <span itemprop="name">Technical</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -459,7 +501,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Technical/" rel="tag"># Technical</a>
+            <a href="/tags/UInt24/" rel="tag"># UInt24</a>
+          
+            <a href="/tags/byte/" rel="tag"># byte</a>
           
         </div>
       
@@ -564,22 +608,31 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
 
           
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
 
           
             
             
             <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">2</span>
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">tags</span>
-              
+              </a>
             </div>
           
 

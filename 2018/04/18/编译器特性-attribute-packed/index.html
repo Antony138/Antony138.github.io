@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="BOOK," />
+  <meta name="keywords" content="编译器,compiler," />
 
 
 
@@ -97,20 +97,18 @@
 
 
 
-<meta name="description" content="《高效15法則》是用Kindle看的第二本電子書，事實證明，對我來說，電子書更容易完成閱讀——携帶方便，可以更好地利用碎片化時間（去年買的紙質版本的《野火》還沒翻完1/3）。至於吸收效果如何，就像本書所講  完成比完美更好 作為一個作家，不斷地打磨作品對我來說不是難事⋯⋯我總是有新的想法、素材、更好的措辭，但是相比作品永遠不為人所知，不完美地發表總是更好。  不完美的完成，總比不完成強。  《高效">
-<meta name="keywords" content="BOOK">
+<meta name="description" content="Remark: 这是在2018年1月份发到简书上面的文章，现在搬到自己Blog上来。 问题在2016年4月份做项目的时候遇到过一个问题。 从BLE(低功耗蓝牙)设备上收到数据(16进制的数据流)，&amp;lt;840100ec d5045715 00010014 00240018 00&amp;gt;，17个bytes(字节)，然后我定义了一个结构体去接数据： 12345678910typedef struct">
+<meta name="keywords" content="编译器,compiler">
 <meta property="og:type" content="article">
-<meta property="og:title" content="《高效15法則》讀書摘錄">
-<meta property="og:url" content="https://antony138.github.io/2018/04/17/《高效15法則》讀書摘錄/index.html">
+<meta property="og:title" content="编译器特性 _attribute__((packed))">
+<meta property="og:url" content="https://antony138.github.io/2018/04/18/编译器特性-attribute-packed/index.html">
 <meta property="og:site_name" content="Antony’s Blog">
-<meta property="og:description" content="《高效15法則》是用Kindle看的第二本電子書，事實證明，對我來說，電子書更容易完成閱讀——携帶方便，可以更好地利用碎片化時間（去年買的紙質版本的《野火》還沒翻完1/3）。至於吸收效果如何，就像本書所講  完成比完美更好 作為一個作家，不斷地打磨作品對我來說不是難事⋯⋯我總是有新的想法、素材、更好的措辭，但是相比作品永遠不為人所知，不完美地發表總是更好。  不完美的完成，總比不完成強。  《高效">
+<meta property="og:description" content="Remark: 这是在2018年1月份发到简书上面的文章，现在搬到自己Blog上来。 问题在2016年4月份做项目的时候遇到过一个问题。 从BLE(低功耗蓝牙)设备上收到数据(16进制的数据流)，&amp;lt;840100ec d5045715 00010014 00240018 00&amp;gt;，17个bytes(字节)，然后我定义了一个结构体去接数据： 12345678910typedef struct">
 <meta property="og:locale" content="en">
-<meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2018articlesPhotos/book_15SecretsSuccessful.JPG">
-<meta property="og:updated_time" content="2018-04-18T00:44:37.375Z">
+<meta property="og:updated_time" content="2018-04-18T00:59:50.532Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="《高效15法則》讀書摘錄">
-<meta name="twitter:description" content="《高效15法則》是用Kindle看的第二本電子書，事實證明，對我來說，電子書更容易完成閱讀——携帶方便，可以更好地利用碎片化時間（去年買的紙質版本的《野火》還沒翻完1/3）。至於吸收效果如何，就像本書所講  完成比完美更好 作為一個作家，不斷地打磨作品對我來說不是難事⋯⋯我總是有新的想法、素材、更好的措辭，但是相比作品永遠不為人所知，不完美地發表總是更好。  不完美的完成，總比不完成強。  《高效">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2018articlesPhotos/book_15SecretsSuccessful.JPG">
+<meta name="twitter:title" content="编译器特性 _attribute__((packed))">
+<meta name="twitter:description" content="Remark: 这是在2018年1月份发到简书上面的文章，现在搬到自己Blog上来。 问题在2016年4月份做项目的时候遇到过一个问题。 从BLE(低功耗蓝牙)设备上收到数据(16进制的数据流)，&amp;lt;840100ec d5045715 00010014 00240018 00&amp;gt;，17个bytes(字节)，然后我定义了一个结构体去接数据： 12345678910typedef struct">
 
 
 
@@ -140,13 +138,13 @@
 
 
 
-  <link rel="canonical" href="https://antony138.github.io/2018/04/17/《高效15法則》讀書摘錄/"/>
+  <link rel="canonical" href="https://antony138.github.io/2018/04/18/编译器特性-attribute-packed/"/>
 
 
 
 
 
-  <title>《高效15法則》讀書摘錄 | Antony’s Blog</title>
+  <title>编译器特性 _attribute__((packed)) | Antony’s Blog</title>
   
 
 
@@ -283,7 +281,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://antony138.github.io/2018/04/17/《高效15法則》讀書摘錄/">
+    <link itemprop="mainEntityOfPage" href="https://antony138.github.io/2018/04/18/编译器特性-attribute-packed/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Antony Wong">
@@ -300,7 +298,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">《高效15法則》讀書摘錄</h1>
+          <h1 class="post-title" itemprop="name headline">编译器特性 _attribute__((packed))</h1>
         
 
         <div class="post-meta">
@@ -312,8 +310,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-17T14:26:15+08:00">
-                2018-04-17
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-18T08:54:58+08:00">
+                2018-04-18
               </time>
             
 
@@ -335,8 +333,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Book-Notes/" itemprop="url" rel="index">
-                    <span itemprop="name">Book Notes</span>
+                  <a href="/categories/Technical/" itemprop="url" rel="index">
+                    <span itemprop="name">Technical</span>
                   </a>
                 </span>
 
@@ -352,7 +350,7 @@
 
           
           
-             <span id="/2018/04/17/《高效15法則》讀書摘錄/" class="leancloud_visitors" data-flag-title="《高效15法則》讀書摘錄">
+             <span id="/2018/04/18/编译器特性-attribute-packed/" class="leancloud_visitors" data-flag-title="编译器特性 _attribute__((packed))">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -383,121 +381,45 @@
       
 
       
-        <p>《<a href="https://www.amazon.cn/dp/B075N2VNQC" target="_blank" rel="external">高效15法則</a>》是用Kindle看的第二本電子書，事實證明，對我來說，電子書更容易完成閱讀——携帶方便，可以更好地利用碎片化時間（去年買的紙質版本的《野火》還沒翻完1/3）。至於吸收效果如何，就像本書所講</p>
+        <p>Remark: 这是在2018年1月份发到简书上面的<a href="https://www.jianshu.com/p/9c307c3eb8a9" target="_blank" rel="external">文章</a>，现在搬到自己Blog上来。</p>
+<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在2016年4月份做项目的时候遇到过一个问题。</p>
+<p>从BLE(低功耗蓝牙)设备上收到数据(16进制的数据流)，<code>&lt;840100ec d5045715 00010014 00240018 00&gt;</code>，17个bytes(字节)，然后我定义了一个结构体去接数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">typedef struct &#123;</div><div class="line">    UInt8 cmd;</div><div class="line">    UInt16 index; // 目标:接到0x0100</div><div class="line">    UInt32 timeStamp; // 目标:接到0xECD50457</div><div class="line">    UInt16 steps;// 目标:接到0x1500</div><div class="line">    UInt16 calories;// 目标:接到0x0100</div><div class="line">    UInt16 distance;// 目标:接到0x1400</div><div class="line">    UInt16 sleep;// 目标:接到0x2400</div><div class="line">    UInt16 duration;// 目标:接到0x1800 (一共17 bytes)</div><div class="line">&#125; D2MHistoryDataPort;</div></pre></td></tr></table></figure>
+<p>如果这样去接数据，<code>index</code>接到是<code>0xEC00</code>(目标是<code>0x0100</code>)，导致后面的也都全部错位了。为什么会这样？</p>
+<p>当时问尽朋友，问尽Google，都没有找到解决的办法。最后硬着头皮，用蹩脚的英语在StackOverFlow进行了第一次提问<a href="https://stackoverflow.com/questions/36490630/how-to-convert-nsdata-to-struct-accurately#" target="_blank" rel="external">How to convert NSData to struct accurately</a>（不久还因为问题表达不清被关闭(囧)——幸好在问题关闭前有人已经明白，并给了解决问题的回答）</p>
+<p>当时可以解决问题的答案是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">typedef struct __attribute__((packed)) &#123;</div><div class="line">    UInt8 cmd;</div><div class="line">    UInt16 index;</div><div class="line">    UInt32 timeStamp;</div><div class="line">    UInt16 steps;// 步数</div><div class="line">    UInt16 calories;// 卡路里</div><div class="line">    UInt16 distance;// 距离,单位m</div><div class="line">    UInt16 sleep;// 睡眠</div><div class="line">    UInt16 duration;// 运动时长,单位minute</div><div class="line">&#125; D2MHistoryDataPort;</div></pre></td></tr></table></figure>
+<p>可以看到，多了<code>__attribute__((packed))</code>这部分。当时copy了答案，能work，也没有多深究，忙着去赶项目进度了。</p>
+<p>后来也一直在用这招，凡是结构体中用到非<code>UInt8</code>的，都会加上<code>__attribute__((packed))</code>——否则接的时候，都会「错位」。</p>
+<p>最近写得多了，「百无聊赖」之下又止不住自己的好奇心：为什么要这样写？</p>
+<h2 id="编译器的特性"><a href="#编译器的特性" class="headerlink" title="编译器的特性"></a>编译器的特性</h2><p>我们先看看下面两个结构体的定义：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">typedef struct __attribute__((packed)) &#123;</div><div class="line">    UInt8 cmd;</div><div class="line">    UInt16 index;</div><div class="line">&#125; D2MCommand;</div><div class="line"></div><div class="line">typedef struct &#123;</div><div class="line">    UInt8 cmd;</div><div class="line">    UInt16 index;</div><div class="line">&#125; D2MCommandNoAttribute;</div></pre></td></tr></table></figure>
+<p>一个有<code>__attribute__((packed))</code>，一个没有。</p>
+<p>再用<code>sizeof()</code>打印他们的长度：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">NSLog(@&quot;D2MCommand长度: %@&quot;, @(sizeof(D2MCommand)));</div><div class="line">NSLog(@&quot;D2MCommandNoAttribute长度: %@&quot;, @(sizeof(D2MCommandNoAttribute)));</div><div class="line"></div><div class="line">// 打印结果</div><div class="line">D2MCommand长度: 3</div><div class="line">D2MCommandNoAttribute长度: 4</div></pre></td></tr></table></figure>
+<p>定义的数据一样，为什么长度会不一样？</p>
+<p>其实是编译器在「作祟」。</p>
+<p>为了提高系统性能，CPU处理内存时，会用「数据对齐(Data alignment)」这种方式。这种方式下，数据在内存中都以固定size保存。而为了进行对齐，有时候就需要在数据中插入(data structure padding)一些无意义的字节。比如编译器是以4个bytes为单位对齐的，当你声明一个<code>UInt8</code>的数据，后面就会补齐3个无意义的bytes。</p>
+<p>参考：</p>
 <blockquote>
-<p>完成比完美更好</p>
-<p>作為一個作家，不斷地打磨作品對我來說不是難事⋯⋯我總是有新的想法、素材、更好的措辭，但是相比作品永遠不為人所知，不完美地發表總是更好。</p>
+<p><strong><em>Data alignment</em></strong> means putting the data at a memory offset equal to some multiple of the word size, which increases the system’s performance due to the way the CPU handles memory.</p>
+<p>To align the data, it may be necessary to insert some meaningless bytes between the end of the last data structure and the start of the next, which is <strong><em>data structure padding</em></strong>.</p>
 </blockquote>
-<p>不完美的完成，總比不完成強。</p>
-<p><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2018articlesPhotos/book_15SecretsSuccessful.JPG" alt="《高效15法則》"></p>
-<p>《高效15法則》介紹了15各「秘訣」和一個系統E-3C系統。</p>
-<p>印象比較深的幾點：</p>
-<ul>
-<li>記住，你每天只有1440分鐘，時間是最寶貴的——要珍惜</li>
-</ul>
-<ul>
-<li>用「日程表」代替「任務清單(To Do List)」<ul>
-<li>實踐了一週，結合番茄工作法，感覺確實好很多。因為用ToDoList，你會挑肥揀瘦，最後一天下來，可能一堆的事情還在list裡面躺著。而用「日程表」，什麼時間做什麼事情，有利於把一天的事情都清理掉。</li>
-</ul>
-</li>
-<li>利用好早起的60分鐘——現在在慢慢調整作息，感覺早起很重要</li>
-<li>提高生產率的關鍵是提高精力——因為時間是固定的</li>
-</ul>
-<h2 id="15個「秘訣」"><a href="#15個「秘訣」" class="headerlink" title="15個「秘訣」"></a>15個「秘訣」</h2><p>具體摘錄如下：</p>
-<ul>
-<li><p>秘訣一：</p>
-<p>時間是你最寶貴也是最稀缺的資源。</p>
-<p>如果你每一天都把1440分鐘過得充實有意義，那麼你的人生將會發生怎樣的改變呢</p>
-</li>
-<li><p>秘訣二：</p>
-<p>確定你最重要的任務，並且將它放在其他事情之前完成。</p>
-<p>那麼，什麼是你的「第一目標」呢？什麼是你的要務呢？</p>
-</li>
-<li><p>秘訣三：</p>
-<p>根據日程表來做事而不要根據任務清單。</p>
-<p>如果你可以放棄你的任務清單，轉而投向日程表，你覺得你可以減少多少壓力呢？</p>
-</li>
-<li><p>秘訣四</p>
-<p>當你認識到要怎樣打敗將來的自己——那個不能信任的自己，拖延症就是可以被克服的。</p>
-<p>你知道這週要做什麼？你怎麼能確保自己不再拖延呢？</p>
-</li>
-<li><p>秘訣五</p>
-<p>總會有更多的事情要去做，總會有更多的事情可以做，要接受這一事實。</p>
-<p>當你最終接受了你不能完成所有的事情——因為總會有更多的事情可以被完成這一事實，你會感覺好多了嗎？</p>
-</li>
-<li><p>秘訣六</p>
-<p>總是帶一本筆記本。</p>
-<p>當你開始把所有重要的事情都記在筆記本上的時候，你會少多少壓力？</p>
-</li>
-<li><p>秘訣七</p>
-<p>郵件這件東西很容易將別人的優先事項帶進你的生活；控制好你的收件箱。</p>
-<p>準備好承諾每天檢查郵箱不超過三次了嗎？</p>
-</li>
-<li><p>秘訣八</p>
-<p>當其他所有形式的溝通都不起作用的時候，安排並參加會議是最後的解決辦法。</p>
-<p>看看日程表上未來一週的會議安排。如何減少甚至不讓這些事情佔據你的時間？</p>
-</li>
-<li><p>秘訣九</p>
-<p>拒絕所有不支持你實現近期目標的事情。</p>
-<p>在接下來的幾週裡，你會拒絕哪些會議、電話、項目？</p>
-</li>
-<li><p>秘訣十</p>
-<p>80%的結果是由20%的行為產生的。（編者：「帕累托法则/Pareto principle」）</p>
-<p>你哪20%的時間會生成80%的價值？</p>
-</li>
-<li><p>秘訣十一</p>
-<p>把時間花在能夠充分利用你的專長、充分發揮熱情的事情上。</p>
-<p>在接下來的幾週裡，你會把什麼事情外包出去？</p>
-</li>
-<li><p>秘訣十二</p>
-<p>把一週中的每一天都確定循環主題，並把工作安排進去。</p>
-<p>如果時間都被安排好，使你的工作效率最大化，那你的工作效率會提高多少，壓力又會減少多少呢？</p>
-</li>
-<li><p>秘訣十三</p>
-<p>如果完成一件事時間少於五分鐘，應該立刻就去做。</p>
-<p>如果你不再一次又一次地反覆做同一件事，會節省多少時間呢？只做一次，只做一次，只做一次，只做一次。</p>
-</li>
-<li><p>秘訣十四</p>
-<p>用每天的第一個60分鐘進行晨禮來提升思想，改善身體和精神狀態。</p>
-<p>明天早晨你會把鬧鐘設定到幾點呢？</p>
-</li>
-<li><p>秘訣十五</p>
-<p>精力和注意力決定生產率，而不是時間。</p>
-<p>明天你會怎樣增加自己的精力呢？</p>
-</li>
-<li><p>E-3C系統</p>
-<ul>
-<li>E：Energy(精力)——核心</li>
-</ul>
-<blockquote>
-<p>我們的時間是固定的，但我們的生產率是可變的。擴充精力、增強注意力是在同樣時間取得10倍生產率的最重要秘訣。</p>
-</blockquote>
-<ul>
-<li><strong>C</strong>apture：</li>
-</ul>
-<blockquote>
-<p>你必須把所有的、任何的事情「捕捉」到筆記本當中，而不是試圖用大腦紀錄事情。</p>
-</blockquote>
-<ul>
-<li><strong>C</strong>alendar：</li>
-</ul>
-<blockquote>
-<p>這也暗示了我們<strong>不要將待辦事項做成列表</strong>！直接將待辦事項標記到日曆上。</p>
-</blockquote>
-<ul>
-<li><strong>C</strong>oncentrate：</li>
-</ul>
-<blockquote>
-<p>……他們每次只會全神貫注地做一件事。</p>
-</blockquote>
-</li>
-</ul>
-<h2 id="謹記，我們每天只有1440分鐘"><a href="#謹記，我們每天只有1440分鐘" class="headerlink" title="謹記，我們每天只有1440分鐘"></a>謹記，我們每天只有1440分鐘</h2><blockquote>
-<p>記住，沒有一個系統可以適用於所有人，你不必為了提高生產效率而把15個秘訣全部融合進來，最重要的是我們在了解成功人士的習慣後要結合自身情況，讓他們的習慣通過適合自己的方式幫助到自己。</p>
-<p>要有思想。</p>
-<p>有目標地活著。</p>
-<p>記住，一天只有1440分鐘。</p>
-</blockquote>
+<p>更详细可参考：<a href="https://stackoverflow.com/a/11772340/5127402" target="_blank" rel="external">What is the meaning of “<strong>attribute</strong>((packed, aligned(4))) ”</a></p>
+<h3 id="attribute"><a href="#attribute" class="headerlink" title="__attribute__"></a><code>__attribute__</code></h3><p>而要改变编译器的对齐方式，就要利用到<code>__attribute__</code>关键字，它是用于设置函数属性（Function Attribute）、变量属性（Variable Attribute）、类型属性（Type Attribute）。也可以修饰结构体（struct）或共用体（union）。</p>
+<p>写法为<code>__attribute__ ((attribute-list))</code>，后面的attribute-list大概有6个参数值可以设置：<code>aligned</code>, <code>packed</code>, <code>transparent_union</code>, <code>unused</code>, <code>deprecated</code>和 <code>may_alias</code>(我自己没有全部试过)。</p>
+<h3 id="packed"><a href="#packed" class="headerlink" title="packed"></a><code>packed</code></h3><p>packed属性的主要目的是让编译器更紧凑地使用内存。</p>
+<p>所以再回头看<code>__attribute__((packed))</code>，它的作用就是告诉编译器：取消结构体在编译过程中的优化对齐，按尽可能小的size对齐——也就是按1字节为单位对齐。</p>
+<p><code>__attribute__((packed))</code>和<code>__attribute__((packed, aligned(1)))</code>是等价的。（<code>aligned(x)</code>就是告诉编译器，以x个字节为单位进行对齐，x只能是1，或2的幂）。</p>
+<p>现在就可以解释刚刚打印结果的不一样的原因了：第一个结构体，用<code>__attribute__((packed))</code>取消了在编译阶段的优化对齐，返回的是实际占用字节数。而第二个结构体，由于优化对齐的存在，<code>UInt8</code>的cmd，后面会补(padding)一个byte去对齐，最后加起来就是4个byte了，后面的数据也会错乱。</p>
+<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>因此，保险的做法，iOS开发中，如果定义指令，用到非<code>UInt8</code>的数据类型(如<code>UInt16</code>, <code>UInt32</code>)，结构体尽量用<code>__attribute__((packed))</code>修饰，防止数据因为对齐而导致的错位。</p>
+<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a href="https://github.com/ming1016/study/wiki/深入剖析-iOS-编译-Clang---LLVM" target="_blank" rel="external">深入剖析 iOS 编译 Clang LLVM</a></p>
+<p><a href="https://objccn.io/issue-6-2/" target="_blank" rel="external">编译器</a></p>
+<p><a href="http://blog.shengbin.me/posts/gcc-attribute-aligned-and-packed" target="_blank" rel="external">GCC中的aligned和packed属性</a></p>
+<p><a href="http://laoar.net/blog/2014/06/24/ldscript/" target="_blank" rel="external">性能优化，要懂点编译原理</a></p>
+<p><a href="http://blog.sunnyxx.com/2014/09/15/objc-attribute-cleanup/" target="_blank" rel="external">黑魔法<strong>attribute</strong>((cleanup))</a></p>
+<p><a href="http://www.cnblogs.com/astwish/articles/3460618.html" target="_blank" rel="external"><strong>ATTRIBUTE</strong> 你知多少？</a></p>
+<p><a href="https://www.jianshu.com/p/6153eccdbe62" target="_blank" rel="external">神奇的<strong>attribute</strong></a></p>
 
       
     </div>
@@ -515,7 +437,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/BOOK/" rel="tag"># BOOK</a>
+            <a href="/tags/编译器/" rel="tag"># 编译器</a>
+          
+            <a href="/tags/compiler/" rel="tag"># compiler</a>
           
         </div>
       
@@ -528,8 +452,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/11/06/Objective-C-RunTime概览/" rel="next" title="Objective-C RunTime概览">
-                <i class="fa fa-chevron-left"></i> Objective-C RunTime概览
+              <a href="/2018/04/17/《高效15法則》讀書摘錄/" rel="next" title="《高效15法則》讀書摘錄">
+                <i class="fa fa-chevron-left"></i> 《高效15法則》讀書摘錄
               </a>
             
           </div>
@@ -537,10 +461,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/04/18/编译器特性-attribute-packed/" rel="prev" title="编译器特性 _attribute__((packed))">
-                编译器特性 _attribute__((packed)) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -692,7 +612,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#15個「秘訣」"><span class="nav-number">1.</span> <span class="nav-text">15個「秘訣」</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#謹記，我們每天只有1440分鐘"><span class="nav-number">2.</span> <span class="nav-text">謹記，我們每天只有1440分鐘</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译器的特性"><span class="nav-number">2.</span> <span class="nav-text">编译器的特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#attribute"><span class="nav-number">2.1.</span> <span class="nav-text">__attribute__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#packed"><span class="nav-number">2.2.</span> <span class="nav-text">packed</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">3.</span> <span class="nav-text">Conclusion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol></div>
             
 
           </div>

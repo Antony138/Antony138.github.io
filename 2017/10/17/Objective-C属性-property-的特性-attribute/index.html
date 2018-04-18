@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Technical," />
+  <meta name="keywords" content="@property,attribute," />
 
 
 
@@ -98,7 +98,7 @@
 
 
 <meta name="description" content="先以一图总结：  以下：「attribute(s)」，「特性」是指同一事物(都指@property后面括号内的单词)。 用Objective-C做过开发的朋友都知道，类里面的属性(可以近似地理解为类的变量)是用@property关键字定义的，然后@property后面的括号，会写上若干「特性(attribute)」，后面跟数据类型、属性名称。如： @property (copy, nonatomi">
-<meta name="keywords" content="Technical">
+<meta name="keywords" content="@property,attribute">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Objective-C属性(property)的特性(attribute)">
 <meta property="og:url" content="https://antony138.github.io/2017/10/17/Objective-C属性-property-的特性-attribute/index.html">
@@ -106,7 +106,7 @@
 <meta property="og:description" content="先以一图总结：  以下：「attribute(s)」，「特性」是指同一事物(都指@property后面括号内的单词)。 用Objective-C做过开发的朋友都知道，类里面的属性(可以近似地理解为类的变量)是用@property关键字定义的，然后@property后面的括号，会写上若干「特性(attribute)」，后面跟数据类型、属性名称。如： @property (copy, nonatomi">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://upload-images.jianshu.io/upload_images/298822-a2eb8681c3678f5e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:updated_time" content="2017-10-17T07:17:12.000Z">
+<meta property="og:updated_time" content="2018-04-18T00:51:46.650Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-C属性(property)的特性(attribute)">
 <meta name="twitter:description" content="先以一图总结：  以下：「attribute(s)」，「特性」是指同一事物(都指@property后面括号内的单词)。 用Objective-C做过开发的朋友都知道，类里面的属性(可以近似地理解为类的变量)是用@property关键字定义的，然后@property后面的括号，会写上若干「特性(attribute)」，后面跟数据类型、属性名称。如： @property (copy, nonatomi">
@@ -211,6 +211,26 @@
         </li>
       
         
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            Categories
+          </a>
+        </li>
+      
+        
         <li class="menu-item menu-item-archives">
           <a href="/archives/" rel="section">
             
@@ -302,6 +322,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Technical/" itemprop="url" rel="index">
+                    <span itemprop="name">Technical</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -443,14 +485,14 @@
 <p><strong>扩展</strong></p>
 <p>如果不用<code>copy</code>，而是在赋值前，调用copy方法，可以达到同样的目的：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// 这时候也可以确保nameNonCopy不会被意外修改</div><div class="line">testClass1.nameNonCopy = [nameString copy];</div></pre></td></tr></table></figure>
+<p><strong>如果用<code>copy</code>修饰NSMutableString、NSMutableArray会发生什么?</strong></p>
+<p>如果用<code>copy</code>修饰NSMutableString，在赋值的时候会报如下警告：</p>
+<p><code>Incompatible pointer types assigning to &#39;NSMutableString *&#39; from &#39;NSString *&#39;</code></p>
+<p>而如果用<code>copy</code>修饰NSMutableArray，则在调用addObject:时直接crash：</p>
+<p><code>reason: &#39;-[__NSArray0 addObject:]: unrecognized selector sent to instance 0x1700045c0&#39;</code></p>
+<p>如果理解了「<code>copy</code>特性，就是在setter中，进行了copy操作」，就很容易知道以上报错的原因：属性在赋值时，调用setter，已经将原本mutable的对象，copy成了immutable的对象(NSMutableString变成NSString，NSMutableArray变成NSArray)。</p>
 </li>
 </ul>
-<p> <strong>如果用<code>copy</code>修饰NSMutableString、NSMutableArray会发生什么?</strong></p>
-<p> 如果用<code>copy</code>修饰NSMutableString，在赋值的时候会报如下警告：</p>
-<p> <code>Incompatible pointer types assigning to &#39;NSMutableString *&#39; from &#39;NSString *&#39;</code></p>
-<p> 而如果用<code>copy</code>修饰NSMutableArray，则在调用addObject:时直接crash：</p>
-<p> <code>reason: &#39;-[__NSArray0 addObject:]: unrecognized selector sent to instance 0x1700045c0&#39;</code></p>
-<p> 如果理解了「<code>copy</code>特性，就是在setter中，进行了copy操作」，就很容易知道以上报错的原因：属性在赋值时，调用setter，已经将原本mutable的对象，copy成了immutable的对象(NSMutableString变成NSString，NSMutableArray变成NSArray)。</p>
 <ul>
 <li><p><strong>assign</strong></p>
 <p>是非ARC时代的特性，</p>
@@ -528,7 +570,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Technical/" rel="tag"># Technical</a>
+            <a href="/tags/property/" rel="tag"># @property</a>
+          
+            <a href="/tags/attribute/" rel="tag"># attribute</a>
           
         </div>
       
@@ -633,22 +677,31 @@
             
               <a href="/archives/">
             
-                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-count">6</span>
                 <span class="site-state-item-name">posts</span>
               </a>
             </div>
           
 
           
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">3</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
 
           
             
             
             <div class="site-state-item site-state-tags">
-              
-                <span class="site-state-item-count">2</span>
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">tags</span>
-              
+              </a>
             </div>
           
 
