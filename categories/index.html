@@ -104,7 +104,7 @@
 <meta property="og:site_name" content="Antony’s Blog">
 <meta property="og:description" content="I’m a Programmer.">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-04-18T00:45:34.262Z">
+<meta property="og:updated_time" content="2018-04-18T00:45:34.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="categories">
 <meta name="twitter:description" content="I’m a Programmer.">
@@ -311,6 +311,8 @@
 
           
   <div class="comments" id="comments">
+    
+      <div id="vcomments"></div>
     
   </div>
 
@@ -569,6 +571,21 @@
 
 
 
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.1.4/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+    new Valine({
+        av: AV,
+        el: '#vcomments' ,
+        verify: false,
+        notify: false,
+        app_id: 'qibt0WVIAESdP3v2fWKz62E4-gzGzoHsz',
+        app_key: 'g38v5gBYmkAoCCoRoA48HqPP',
+        placeholder: 'Please write down what you want to say.'
+    });
+  </script>
 
 
 

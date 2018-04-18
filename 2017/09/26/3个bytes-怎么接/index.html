@@ -107,7 +107,7 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2017articlesPhotos/leftShift16bit.gif">
 <meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2017articlesPhotos/leftShift8bit.gif">
-<meta property="og:updated_time" content="2018-04-18T00:48:57.738Z">
+<meta property="og:updated_time" content="2018-04-18T00:48:57.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="3个bytes, 怎么接?">
 <meta name="twitter:description" content="这个问题，对于熟悉C语言的人来说，答案很简单。 不过对我这种不熟悉C语言的人，在坑中「摸索」良久，先后尝试好几种方法。 其实，生活中很多事情也像编程：解决问题的办法有万千，但某些方法确实是比较优雅的。 在这个「摸索」的过程中，也是一个蛮有趣的过程，遂记之。 问题在过去的项目中，所接触到的「协议/指令(protocol/command)」，数据大多是以1个byte(字节)，2个bytes，4个byt">
@@ -558,6 +558,8 @@
           
   <div class="comments" id="comments">
     
+      <div id="vcomments"></div>
+    
   </div>
 
 
@@ -844,6 +846,21 @@
 
 
 
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.1.4/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+    new Valine({
+        av: AV,
+        el: '#vcomments' ,
+        verify: false,
+        notify: false,
+        app_id: 'qibt0WVIAESdP3v2fWKz62E4-gzGzoHsz',
+        app_key: 'g38v5gBYmkAoCCoRoA48HqPP',
+        placeholder: 'Please write down what you want to say.'
+    });
+  </script>
 
 
 

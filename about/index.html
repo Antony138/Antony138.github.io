@@ -84,8 +84,6 @@
 
 
 
-  
-
 
   <link rel="alternate" href="/atom.xml" title="Antony’s Blog" type="application/atom+xml" />
 
@@ -310,6 +308,8 @@
 
           
   <div class="comments" id="comments">
+    
+      <div id="vcomments"></div>
     
   </div>
 
@@ -568,6 +568,21 @@
 
 
 
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.1.4/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+    new Valine({
+        av: AV,
+        el: '#vcomments' ,
+        verify: false,
+        notify: false,
+        app_id: 'qibt0WVIAESdP3v2fWKz62E4-gzGzoHsz',
+        app_key: 'g38v5gBYmkAoCCoRoA48HqPP',
+        placeholder: 'Please write down what you want to say.'
+    });
+  </script>
 
 
 

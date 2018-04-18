@@ -105,7 +105,7 @@
 <meta property="og:site_name" content="Antony’s Blog">
 <meta property="og:description" content="Remark: 这是在2018年1月份发到简书上面的文章，现在搬到自己Blog上来。 问题在2016年4月份做项目的时候遇到过一个问题。 从BLE(低功耗蓝牙)设备上收到数据(16进制的数据流)，&amp;lt;840100ec d5045715 00010014 00240018 00&amp;gt;，17个bytes(字节)，然后我定义了一个结构体去接数据： 12345678910typedef struct">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-04-18T00:59:50.532Z">
+<meta property="og:updated_time" content="2018-04-18T00:59:50.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="编译器特性 _attribute__((packed))">
 <meta name="twitter:description" content="Remark: 这是在2018年1月份发到简书上面的文章，现在搬到自己Blog上来。 问题在2016年4月份做项目的时候遇到过一个问题。 从BLE(低功耗蓝牙)设备上收到数据(16进制的数据流)，&amp;lt;840100ec d5045715 00010014 00240018 00&amp;gt;，17个bytes(字节)，然后我定义了一个结构体去接数据： 12345678910typedef struct">
@@ -490,6 +490,8 @@
           
   <div class="comments" id="comments">
     
+      <div id="vcomments"></div>
+    
   </div>
 
 
@@ -776,6 +778,21 @@
 
 
 
+
+  
+  <script src="//cdn1.lncld.net/static/js/3.0.4/av-min.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/valine@1.1.4/dist/Valine.min.js"></script>
+  <script type="text/javascript">
+    new Valine({
+        av: AV,
+        el: '#vcomments' ,
+        verify: false,
+        notify: false,
+        app_id: 'qibt0WVIAESdP3v2fWKz62E4-gzGzoHsz',
+        app_key: 'g38v5gBYmkAoCCoRoA48HqPP',
+        placeholder: 'Please write down what you want to say.'
+    });
+  </script>
 
 
 
