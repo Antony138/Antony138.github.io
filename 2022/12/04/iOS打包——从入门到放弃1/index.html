@@ -79,7 +79,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="编译器,compiler," />
+  <meta name="keywords" content="iOS打包," />
 
 
 
@@ -97,18 +97,24 @@
 
 
 
-<meta name="description" content="Remark: 这是在2018年1月份发到简书上面的文章，现在搬到自己Blog上来。 问题在2016年4月份做项目的时候遇到过一个问题。 从BLE(低功耗蓝牙)设备上收到数据(16进制的数据流)，&amp;lt;840100ec d5045715 00010014 00240018 00&amp;gt;，17个bytes(字节)，然后我定义了一个结构体去接数据： 12345678910typedef struct">
-<meta name="keywords" content="编译器,compiler">
+<meta name="description" content="——iOS签名那点儿破事儿背景首先来点context——为什么会有「签名」。 1970年代，在Unix上运行program/软件，不需要额外获取权限访问系统的硬件、数据（因为程序是自己写的——你应该不会给自己电脑「下毒」）。 后来，第三方软件出现，出于安全原因，需要对第三方软件的权限做出限制（请求同意后才能获取权限）——你应该不想出现这种情况：别人开发的软件，在不经你同意的情况下，读取了你D盘「C">
+<meta name="keywords" content="iOS打包">
 <meta property="og:type" content="article">
-<meta property="og:title" content="编译器特性 _attribute__((packed))">
-<meta property="og:url" content="https://antony138.github.io/2018/04/18/编译器特性-attribute-packed/index.html">
+<meta property="og:title" content="iOS打包——从入门到放弃(一)">
+<meta property="og:url" content="https://antony138.github.io/2022/12/04/iOS打包——从入门到放弃1/index.html">
 <meta property="og:site_name" content="Antony’s Blog">
-<meta property="og:description" content="Remark: 这是在2018年1月份发到简书上面的文章，现在搬到自己Blog上来。 问题在2016年4月份做项目的时候遇到过一个问题。 从BLE(低功耗蓝牙)设备上收到数据(16进制的数据流)，&amp;lt;840100ec d5045715 00010014 00240018 00&amp;gt;，17个bytes(字节)，然后我定义了一个结构体去接数据： 12345678910typedef struct">
+<meta property="og:description" content="——iOS签名那点儿破事儿背景首先来点context——为什么会有「签名」。 1970年代，在Unix上运行program/软件，不需要额外获取权限访问系统的硬件、数据（因为程序是自己写的——你应该不会给自己电脑「下毒」）。 后来，第三方软件出现，出于安全原因，需要对第三方软件的权限做出限制（请求同意后才能获取权限）——你应该不想出现这种情况：别人开发的软件，在不经你同意的情况下，读取了你D盘「C">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2018-04-18T00:59:50.000Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AppSandbox.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/Term.jpg">
+<meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/Entitlement.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AppStoreRelease.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AdHocRelease.png">
+<meta property="og:updated_time" content="2022-12-03T17:12:43.180Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="编译器特性 _attribute__((packed))">
-<meta name="twitter:description" content="Remark: 这是在2018年1月份发到简书上面的文章，现在搬到自己Blog上来。 问题在2016年4月份做项目的时候遇到过一个问题。 从BLE(低功耗蓝牙)设备上收到数据(16进制的数据流)，&amp;lt;840100ec d5045715 00010014 00240018 00&amp;gt;，17个bytes(字节)，然后我定义了一个结构体去接数据： 12345678910typedef struct">
+<meta name="twitter:title" content="iOS打包——从入门到放弃(一)">
+<meta name="twitter:description" content="——iOS签名那点儿破事儿背景首先来点context——为什么会有「签名」。 1970年代，在Unix上运行program/软件，不需要额外获取权限访问系统的硬件、数据（因为程序是自己写的——你应该不会给自己电脑「下毒」）。 后来，第三方软件出现，出于安全原因，需要对第三方软件的权限做出限制（请求同意后才能获取权限）——你应该不想出现这种情况：别人开发的软件，在不经你同意的情况下，读取了你D盘「C">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AppSandbox.jpg">
 
 
 
@@ -138,13 +144,13 @@
 
 
 
-  <link rel="canonical" href="https://antony138.github.io/2018/04/18/编译器特性-attribute-packed/"/>
+  <link rel="canonical" href="https://antony138.github.io/2022/12/04/iOS打包——从入门到放弃1/"/>
 
 
 
 
 
-  <title>编译器特性 _attribute__((packed)) | Antony’s Blog</title>
+  <title>iOS打包——从入门到放弃(一) | Antony’s Blog</title>
   
 
 
@@ -281,7 +287,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="https://antony138.github.io/2018/04/18/编译器特性-attribute-packed/">
+    <link itemprop="mainEntityOfPage" href="https://antony138.github.io/2022/12/04/iOS打包——从入门到放弃1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Antony Wong">
@@ -298,7 +304,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">编译器特性 _attribute__((packed))</h1>
+          <h1 class="post-title" itemprop="name headline">iOS打包——从入门到放弃(一)</h1>
         
 
         <div class="post-meta">
@@ -310,8 +316,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-18T09:54:58+09:00">
-                2018-04-18
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-12-04T02:09:22+08:00">
+                2022-12-04
               </time>
             
 
@@ -350,7 +356,7 @@
 
           
           
-             <span id="/2018/04/18/编译器特性-attribute-packed/" class="leancloud_visitors" data-flag-title="编译器特性 _attribute__((packed))">
+             <span id="/2022/12/04/iOS打包——从入门到放弃1/" class="leancloud_visitors" data-flag-title="iOS打包——从入门到放弃(一)">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -381,45 +387,62 @@
       
 
       
-        <p>Remark: 这是在2018年1月份发到简书上面的<a href="https://www.jianshu.com/p/9c307c3eb8a9" target="_blank" rel="external">文章</a>，现在搬到自己Blog上来。</p>
-<h2 id="问题"><a href="#问题" class="headerlink" title="问题"></a>问题</h2><p>在2016年4月份做项目的时候遇到过一个问题。</p>
-<p>从BLE(低功耗蓝牙)设备上收到数据(16进制的数据流)，<code>&lt;840100ec d5045715 00010014 00240018 00&gt;</code>，17个bytes(字节)，然后我定义了一个结构体去接数据：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">typedef struct &#123;</div><div class="line">    UInt8 cmd;</div><div class="line">    UInt16 index; // 目标:接到0x0100</div><div class="line">    UInt32 timeStamp; // 目标:接到0xECD50457</div><div class="line">    UInt16 steps;// 目标:接到0x1500</div><div class="line">    UInt16 calories;// 目标:接到0x0100</div><div class="line">    UInt16 distance;// 目标:接到0x1400</div><div class="line">    UInt16 sleep;// 目标:接到0x2400</div><div class="line">    UInt16 duration;// 目标:接到0x1800 (一共17 bytes)</div><div class="line">&#125; D2MHistoryDataPort;</div></pre></td></tr></table></figure>
-<p>如果这样去接数据，<code>index</code>接到是<code>0xEC00</code>(目标是<code>0x0100</code>)，导致后面的也都全部错位了。为什么会这样？</p>
-<p>当时问尽朋友，问尽Google，都没有找到解决的办法。最后硬着头皮，用蹩脚的英语在StackOverFlow进行了第一次提问<a href="https://stackoverflow.com/questions/36490630/how-to-convert-nsdata-to-struct-accurately#" target="_blank" rel="external">How to convert NSData to struct accurately</a>（不久还因为问题表达不清被关闭(囧)——幸好在问题关闭前有人已经明白，并给了解决问题的回答）</p>
-<p>当时可以解决问题的答案是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">typedef struct __attribute__((packed)) &#123;</div><div class="line">    UInt8 cmd;</div><div class="line">    UInt16 index;</div><div class="line">    UInt32 timeStamp;</div><div class="line">    UInt16 steps;// 步数</div><div class="line">    UInt16 calories;// 卡路里</div><div class="line">    UInt16 distance;// 距离,单位m</div><div class="line">    UInt16 sleep;// 睡眠</div><div class="line">    UInt16 duration;// 运动时长,单位minute</div><div class="line">&#125; D2MHistoryDataPort;</div></pre></td></tr></table></figure>
-<p>可以看到，多了<code>__attribute__((packed))</code>这部分。当时copy了答案，能work，也没有多深究，忙着去赶项目进度了。</p>
-<p>后来也一直在用这招，凡是结构体中用到非<code>UInt8</code>的，都会加上<code>__attribute__((packed))</code>——否则接的时候，都会「错位」。</p>
-<p>最近写得多了，「百无聊赖」之下又止不住自己的好奇心：为什么要这样写？</p>
-<h2 id="编译器的特性"><a href="#编译器的特性" class="headerlink" title="编译器的特性"></a>编译器的特性</h2><p>我们先看看下面两个结构体的定义：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">typedef struct __attribute__((packed)) &#123;</div><div class="line">    UInt8 cmd;</div><div class="line">    UInt16 index;</div><div class="line">&#125; D2MCommand;</div><div class="line"></div><div class="line">typedef struct &#123;</div><div class="line">    UInt8 cmd;</div><div class="line">    UInt16 index;</div><div class="line">&#125; D2MCommandNoAttribute;</div></pre></td></tr></table></figure>
-<p>一个有<code>__attribute__((packed))</code>，一个没有。</p>
-<p>再用<code>sizeof()</code>打印他们的长度：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">NSLog(@&quot;D2MCommand长度: %@&quot;, @(sizeof(D2MCommand)));</div><div class="line">NSLog(@&quot;D2MCommandNoAttribute长度: %@&quot;, @(sizeof(D2MCommandNoAttribute)));</div><div class="line"></div><div class="line">// 打印结果</div><div class="line">D2MCommand长度: 3</div><div class="line">D2MCommandNoAttribute长度: 4</div></pre></td></tr></table></figure>
-<p>定义的数据一样，为什么长度会不一样？</p>
-<p>其实是编译器在「作祟」。</p>
-<p>为了提高系统性能，CPU处理内存时，会用「数据对齐(Data alignment)」这种方式。这种方式下，数据在内存中都以固定size保存。而为了进行对齐，有时候就需要在数据中插入(data structure padding)一些无意义的字节。比如编译器是以4个bytes为单位对齐的，当你声明一个<code>UInt8</code>的数据，后面就会补齐3个无意义的bytes。</p>
-<p>参考：</p>
-<blockquote>
-<p><strong><em>Data alignment</em></strong> means putting the data at a memory offset equal to some multiple of the word size, which increases the system’s performance due to the way the CPU handles memory.</p>
-<p>To align the data, it may be necessary to insert some meaningless bytes between the end of the last data structure and the start of the next, which is <strong><em>data structure padding</em></strong>.</p>
-</blockquote>
-<p>更详细可参考：<a href="https://stackoverflow.com/a/11772340/5127402" target="_blank" rel="external">What is the meaning of “<strong>attribute</strong>((packed, aligned(4))) ”</a></p>
-<h3 id="attribute"><a href="#attribute" class="headerlink" title="__attribute__"></a><code>__attribute__</code></h3><p>而要改变编译器的对齐方式，就要利用到<code>__attribute__</code>关键字，它是用于设置函数属性（Function Attribute）、变量属性（Variable Attribute）、类型属性（Type Attribute）。也可以修饰结构体（struct）或共用体（union）。</p>
-<p>写法为<code>__attribute__ ((attribute-list))</code>，后面的attribute-list大概有6个参数值可以设置：<code>aligned</code>, <code>packed</code>, <code>transparent_union</code>, <code>unused</code>, <code>deprecated</code>和 <code>may_alias</code>(我自己没有全部试过)。</p>
-<h3 id="packed"><a href="#packed" class="headerlink" title="packed"></a><code>packed</code></h3><p>packed属性的主要目的是让编译器更紧凑地使用内存。</p>
-<p>所以再回头看<code>__attribute__((packed))</code>，它的作用就是告诉编译器：取消结构体在编译过程中的优化对齐，按尽可能小的size对齐——也就是按1字节为单位对齐。</p>
-<p><code>__attribute__((packed))</code>和<code>__attribute__((packed, aligned(1)))</code>是等价的。（<code>aligned(x)</code>就是告诉编译器，以x个字节为单位进行对齐，x只能是1，或2的幂）。</p>
-<p>现在就可以解释刚刚打印结果的不一样的原因了：第一个结构体，用<code>__attribute__((packed))</code>取消了在编译阶段的优化对齐，返回的是实际占用字节数。而第二个结构体，由于优化对齐的存在，<code>UInt8</code>的cmd，后面会补(padding)一个byte去对齐，最后加起来就是4个byte了，后面的数据也会错乱。</p>
-<h2 id="Conclusion"><a href="#Conclusion" class="headerlink" title="Conclusion"></a>Conclusion</h2><p>因此，保险的做法，iOS开发中，如果定义指令，用到非<code>UInt8</code>的数据类型(如<code>UInt16</code>, <code>UInt32</code>)，结构体尽量用<code>__attribute__((packed))</code>修饰，防止数据因为对齐而导致的错位。</p>
-<h2 id="References"><a href="#References" class="headerlink" title="References"></a>References</h2><p><a href="https://github.com/ming1016/study/wiki/深入剖析-iOS-编译-Clang---LLVM" target="_blank" rel="external">深入剖析 iOS 编译 Clang LLVM</a></p>
-<p><a href="https://objccn.io/issue-6-2/" target="_blank" rel="external">编译器</a></p>
-<p><a href="http://blog.shengbin.me/posts/gcc-attribute-aligned-and-packed" target="_blank" rel="external">GCC中的aligned和packed属性</a></p>
-<p><a href="http://laoar.net/blog/2014/06/24/ldscript/" target="_blank" rel="external">性能优化，要懂点编译原理</a></p>
-<p><a href="http://blog.sunnyxx.com/2014/09/15/objc-attribute-cleanup/" target="_blank" rel="external">黑魔法<strong>attribute</strong>((cleanup))</a></p>
-<p><a href="http://www.cnblogs.com/astwish/articles/3460618.html" target="_blank" rel="external"><strong>ATTRIBUTE</strong> 你知多少？</a></p>
-<p><a href="https://www.jianshu.com/p/6153eccdbe62" target="_blank" rel="external">神奇的<strong>attribute</strong></a></p>
+        <h1 id="——iOS签名那点儿破事儿"><a href="#——iOS签名那点儿破事儿" class="headerlink" title="——iOS签名那点儿破事儿"></a>——iOS签名那点儿破事儿</h1><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>首先来点context——为什么会有「签名」。</p>
+<p>1970年代，在Unix上运行program/软件，不需要额外获取权限访问系统的硬件、数据（因为程序是自己写的——你应该不会给自己电脑「下毒」）。</p>
+<p>后来，第三方软件出现，出于安全原因，需要对第三方软件的权限做出限制（请求同意后才能获取权限）——你应该不想出现这种情况：别人开发的软件，在不经你同意的情况下，读取了你D盘「Cooking」文件夹里面《<a href="https://www.bilibili.com/video/BV1FE411i7yn/?spm_id_from=333.337.search-card.all.click" target="_blank" rel="external">第一次做鸭的经历</a>》这个文件——虽然你鸭做得真的很好。</p>
+<p>所以，为了解决上面这个问题，Apple的工程师，想到的解决方案是<a href="https://developer.apple.com/documentation/security/app_sandbox?language=objc" target="_blank" rel="external">App Sandbox</a>——就是把第三方软件框在一个盒子里，想要用你的硬件(摄像头、麦克风)，或者访问你的数据，都要经过你的同意。</p>
+<p>这个看这张图：<br><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AppSandbox.jpg" alt="App Sandbox"></p>
+<p>「RW APP」就表示第三方软件，黄色区域就是Sanbox，左边就是你电脑的一些资源——第三方软件在经过你同意后，才能访问。</p>
+<p>而今天讨论的「签名」，就隐藏在右边的「Provisioning Profile」，这个术语，这里就不作翻译了，后面会介绍定义。</p>
+<h1 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h1><p>这里涉及几个术语：<strong>App ID</strong>，<strong>Entitlement</strong>，<strong>Certificate</strong>，<strong>Provisioning Profile</strong></p>
+<p>先看一张图：<br><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/Term.jpg" alt="Term"></p>
+<h2 id="App-ID"><a href="#App-ID" class="headerlink" title="App ID"></a>App ID</h2><p>是你的App在苹果平台上的唯一识别码。并通过这个App ID，和你的开发团队绑定在一起。（<code>App ID</code>，<code>Bundle ID</code>，<code>Identifier</code>，可以当作是同一样东西）</p>
+<p>如图所述，它回答的问题是：Who are you？</p>
+<h2 id="Entitlement"><a href="#Entitlement" class="headerlink" title="Entitlement"></a>Entitlement</h2><p>Xcode中点击<code>Capability</code>的<code>+</code>按钮，会增加一个<code>entitlements</code>后缀的文件。<br>（这里的<code>Entitlement</code> ，<code>Capability</code>，<code>Capabilities</code>，可以简单看做是同一样东西）</p>
+<p>也可以看作是「permission」的同义词。</p>
+<p>这些文件，描述了你的App要访问哪些系统资源。如图所示，就是「你想干嘛」—— What do you want to do?</p>
+<p>注意，在操作层面，Entitlement是App ID的一部分，因为在苹果开发者网站中，你想修改Entitlement，就是去到修改Identifier的地方：<br><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/Entitlement.png" alt="Entitlement"></p>
+<p>另外，如果修改了这里的Entitlement，就需要重新生成「Provisioning Profile」去打包。</p>
+<h2 id="Certificate"><a href="#Certificate" class="headerlink" title="Certificate"></a>Certificate</h2><p>我们常说的「证书」，用于确认开发者的身份。回答问题：Can I trust you？</p>
+<p>常用的是两种类型：</p>
+<ul>
+<li>Development：你用Xcode跑App到真机，用的就是这个「开发证书」。因为开发者很多，所以可以有很多的「Development Certificate」</li>
+<li>Distribution：打包上传到App Store，用的就是这个「打包证书」。有一定权限才能生成、使用这个证书，所以不是每个开发者都能打包App。</li>
+</ul>
+<p>证书有1年的有效期，过期了，「Provisioning Profile」也就用不了了。</p>
+<h2 id="Provisioning-Profile"><a href="#Provisioning-Profile" class="headerlink" title="Provisioning Profile"></a>Provisioning Profile</h2><p>「 Provisioning Profile」将上述的3样东西，整合在一起，让你可以打包你的App。</p>
+<p>注意，如果是用Ad Hoc这种发布方式，Provisioning Profile里面还会包含一个额外的Device List——哪些设备能安装这个App。</p>
+<p>Ad Hoc是Apple提供的一种内部分发方式，主要是方便小规模的（内部）测试。</p>
+<p>除了发布到App Store，苹果还提供了以下5种非公开的「内部」分发方式：</p>
+<ul>
+<li>Personal Team distribution：就是你自己用Xcode安装App到真机</li>
+<li>Ad hoc distribution：只能装100台机器，而且「Provisioning Profile」要包含一个能安装App的设备列表——换言之，你需要在打包前取得所有安装手机的UDID。</li>
+<li>TestFlight：内部100，外部1万——更强大的分发、测试App的方式</li>
+<li>In-house distribution：大企业的内部分发</li>
+<li>Custom App Distribution：后出的非公开分发方式，和TestFlight，App Store Connect整合，推荐大企业使用。</li>
+</ul>
+<h1 id="签名-打包"><a href="#签名-打包" class="headerlink" title="(签名)打包"></a>(签名)打包</h1><p>下面演示两种分发方式：「App Store发布」和「Ad Hoc发布」</p>
+<h2 id="App-Store发布"><a href="#App-Store发布" class="headerlink" title="App Store发布"></a>App Store发布</h2><p>一些额外的术语</p>
+<ul>
+<li>CSR(Certificate Signing Request)：<ul>
+<li>用Mac的Keychain Access这个软件，生成的「<code>.certSigningRequest</code>」文件</li>
+<li>里面包含了「公钥」、「私钥」、「证书/Certificate」</li>
+<li>上传到苹果开发者网站，让苹果「签名」，就会得到一个<code>.cert</code>文件。这样就能确认你的身份了（下载后双击安装）</li>
+</ul>
+</li>
+</ul>
+<p><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AppStoreRelease.png" alt="App Store Release"></p>
+<p>黑框部分，是「发布证书」的生成，解决的是上述的「Can I trust you」这个问题。</p>
+<p>黄框部分的Entitlement，解决的是上述「What do you want to do」这个问题。</p>
+<p>红框部分，就是将「发布证书」、「App ID」（提前创建好的）、「Entitlement」这3个东西整合在一起，生成「App Store」类型的「Provisioning Profile」</p>
+<p>蓝框部分：打包、上传了——利用Xcode得Archive &amp; Upload</p>
+<h1 id="Ad-Hoc发布"><a href="#Ad-Hoc发布" class="headerlink" title="Ad Hoc发布"></a>Ad Hoc发布</h1><p><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AdHocRelease.png" alt="Ad Hoc Release"></p>
+<p>粉色框部分：因为Ad Hoc只能分发到特定手机，所以要到开发者王长，注册要安装App的手机（需要拿到手机的UDID）</p>
+<p>黑框部分，是「发布证书」，因为上面「App Store发布」的时候，已经创建过「发布证书」了，这里可以用同样的「发布证书」，无需再重复创建。</p>
+<p>红框部分，就是将「发布证书」、「App ID」（提前创建好的）、「Entitlement」、「Device List」这4个东西整合在一起，生成「Ad Hoc」类型的「Provisioning Profile」（和「App Store」类型会有些许差异）</p>
+<p>蓝框部分：打包、导出ipa文件——利用Xcode得Archive &amp; Upload。然后ipa文件，可以手动安装到手机，也可以上传到第三方平台(<a href="https://deploygate.com/" target="_blank" rel="external">DeployGate</a>, <a href="https://www.pgyer.com/" target="_blank" rel="external">蒲公英</a> etc)，进行「无线安装」。或者自建服务器也可以。</p>
+<p>毕。</p>
+<p>下回预告：《Build Settings的那些破事儿》</p>
 
       
     </div>
@@ -437,9 +460,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/编译器/" rel="tag"># 编译器</a>
-          
-            <a href="/tags/compiler/" rel="tag"># compiler</a>
+            <a href="/tags/iOS打包/" rel="tag"># iOS打包</a>
           
         </div>
       
@@ -452,8 +473,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/04/17/《高效15法則》讀書摘錄/" rel="next" title="《高效15法則》讀書摘錄">
-                <i class="fa fa-chevron-left"></i> 《高效15法則》讀書摘錄
+              <a href="/2022/11/23/2019/" rel="next" title="2019">
+                <i class="fa fa-chevron-left"></i> 2019
               </a>
             
           </div>
@@ -461,10 +482,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/04/21/日本行/" rel="prev" title="日本行">
-                日本行 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -618,7 +635,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#问题"><span class="nav-number">1.</span> <span class="nav-text">问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译器的特性"><span class="nav-number">2.</span> <span class="nav-text">编译器的特性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#attribute"><span class="nav-number">2.1.</span> <span class="nav-text">__attribute__</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#packed"><span class="nav-number">2.2.</span> <span class="nav-text">packed</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Conclusion"><span class="nav-number">3.</span> <span class="nav-text">Conclusion</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#References"><span class="nav-number">4.</span> <span class="nav-text">References</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#——iOS签名那点儿破事儿"><span class="nav-number">1.</span> <span class="nav-text">——iOS签名那点儿破事儿</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#背景"><span class="nav-number">2.</span> <span class="nav-text">背景</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#术语"><span class="nav-number">3.</span> <span class="nav-text">术语</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#App-ID"><span class="nav-number">3.1.</span> <span class="nav-text">App ID</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Entitlement"><span class="nav-number">3.2.</span> <span class="nav-text">Entitlement</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Certificate"><span class="nav-number">3.3.</span> <span class="nav-text">Certificate</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Provisioning-Profile"><span class="nav-number">3.4.</span> <span class="nav-text">Provisioning Profile</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#签名-打包"><span class="nav-number">4.</span> <span class="nav-text">(签名)打包</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#App-Store发布"><span class="nav-number">4.1.</span> <span class="nav-text">App Store发布</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ad-Hoc发布"><span class="nav-number">5.</span> <span class="nav-text">Ad Hoc发布</span></a></li></ol></div>
             
 
           </div>

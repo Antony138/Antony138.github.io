@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://antony138.github.io/"/>
-  <updated>2022-12-03T15:18:35.641Z</updated>
+  <updated>2022-12-03T17:12:43.180Z</updated>
   <id>https://antony138.github.io/</id>
   
   <author>
@@ -15,6 +15,31 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>iOS打包——从入门到放弃(一)</title>
+    <link href="https://antony138.github.io/2022/12/04/iOS%E6%89%93%E5%8C%85%E2%80%94%E2%80%94%E4%BB%8E%E5%85%A5%E9%97%A8%E5%88%B0%E6%94%BE%E5%BC%831/"/>
+    <id>https://antony138.github.io/2022/12/04/iOS打包——从入门到放弃1/</id>
+    <published>2022-12-03T18:09:22.000Z</published>
+    <updated>2022-12-03T17:12:43.180Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="——iOS签名那点儿破事儿"><a href="#——iOS签名那点儿破事儿" class="headerlink" title="——iOS签名那点儿破事儿"></a>——iOS签名那点儿破事儿</h1><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>首先来点context——为什么会有「签名」。</p><p>1970年代，在Unix上运行program/软件，不需要额外获取权限访问系统的硬件、数据（因为程序是自己写的——你应该不会给自己电脑「下毒」）。</p><p>后来，第三方软件出现，出于安全原因，需要对第三方软件的权限做出限制（请求同意后才能获取权限）——你应该不想出现这种情况：别人开发的软件，在不经你同意的情况下，读取了你D盘「Cooking」文件夹里面《<a href="https://www.bilibili.com/video/BV1FE411i7yn/?spm_id_from=333.337.search-card.all.click" target="_blank" rel="external">第一次做鸭的经历</a>》这个文件——虽然你鸭做得真的很好。</p><p>所以，为了解决上面这个问题，Apple的工程师，想到的解决方案是<a href="https://developer.apple.com/documentation/security/app_sandbox?language=objc" target="_blank" rel="external">App Sandbox</a>——就是把第三方软件框在一个盒子里，想要用你的硬件(摄像头、麦克风)，或者访问你的数据，都要经过你的同意。</p><p>这个看这张图：<br><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AppSandbox.jpg" alt="App Sandbox"></p><p>「RW APP」就表示第三方软件，黄色区域就是Sanbox，左边就是你电脑的一些资源——第三方软件在经过你同意后，才能访问。</p><p>而今天讨论的「签名」，就隐藏在右边的「Provisioning Profile」，这个术语，这里就不作翻译了，后面会介绍定义。</p><h1 id="术语"><a href="#术语" class="headerlink" title="术语"></a>术语</h1><p>这里涉及几个术语：<strong>App ID</strong>，<strong>Entitlement</strong>，<strong>Certificate</strong>，<strong>Provisioning Profile</strong></p><p>先看一张图：<br><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/Term.jpg" alt="Term"></p><h2 id="App-ID"><a href="#App-ID" class="headerlink" title="App ID"></a>App ID</h2><p>是你的App在苹果平台上的唯一识别码。并通过这个App ID，和你的开发团队绑定在一起。（<code>App ID</code>，<code>Bundle ID</code>，<code>Identifier</code>，可以当作是同一样东西）</p><p>如图所述，它回答的问题是：Who are you？</p><h2 id="Entitlement"><a href="#Entitlement" class="headerlink" title="Entitlement"></a>Entitlement</h2><p>Xcode中点击<code>Capability</code>的<code>+</code>按钮，会增加一个<code>entitlements</code>后缀的文件。<br>（这里的<code>Entitlement</code> ，<code>Capability</code>，<code>Capabilities</code>，可以简单看做是同一样东西）</p><p>也可以看作是「permission」的同义词。</p><p>这些文件，描述了你的App要访问哪些系统资源。如图所示，就是「你想干嘛」—— What do you want to do?</p><p>注意，在操作层面，Entitlement是App ID的一部分，因为在苹果开发者网站中，你想修改Entitlement，就是去到修改Identifier的地方：<br><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/Entitlement.png" alt="Entitlement"></p><p>另外，如果修改了这里的Entitlement，就需要重新生成「Provisioning Profile」去打包。</p><h2 id="Certificate"><a href="#Certificate" class="headerlink" title="Certificate"></a>Certificate</h2><p>我们常说的「证书」，用于确认开发者的身份。回答问题：Can I trust you？</p><p>常用的是两种类型：</p><ul><li>Development：你用Xcode跑App到真机，用的就是这个「开发证书」。因为开发者很多，所以可以有很多的「Development Certificate」</li><li>Distribution：打包上传到App Store，用的就是这个「打包证书」。有一定权限才能生成、使用这个证书，所以不是每个开发者都能打包App。</li></ul><p>证书有1年的有效期，过期了，「Provisioning Profile」也就用不了了。</p><h2 id="Provisioning-Profile"><a href="#Provisioning-Profile" class="headerlink" title="Provisioning Profile"></a>Provisioning Profile</h2><p>「 Provisioning Profile」将上述的3样东西，整合在一起，让你可以打包你的App。</p><p>注意，如果是用Ad Hoc这种发布方式，Provisioning Profile里面还会包含一个额外的Device List——哪些设备能安装这个App。</p><p>Ad Hoc是Apple提供的一种内部分发方式，主要是方便小规模的（内部）测试。</p><p>除了发布到App Store，苹果还提供了以下5种非公开的「内部」分发方式：</p><ul><li>Personal Team distribution：就是你自己用Xcode安装App到真机</li><li>Ad hoc distribution：只能装100台机器，而且「Provisioning Profile」要包含一个能安装App的设备列表——换言之，你需要在打包前取得所有安装手机的UDID。</li><li>TestFlight：内部100，外部1万——更强大的分发、测试App的方式</li><li>In-house distribution：大企业的内部分发</li><li>Custom App Distribution：后出的非公开分发方式，和TestFlight，App Store Connect整合，推荐大企业使用。</li></ul><h1 id="签名-打包"><a href="#签名-打包" class="headerlink" title="(签名)打包"></a>(签名)打包</h1><p>下面演示两种分发方式：「App Store发布」和「Ad Hoc发布」</p><h2 id="App-Store发布"><a href="#App-Store发布" class="headerlink" title="App Store发布"></a>App Store发布</h2><p>一些额外的术语</p><ul><li>CSR(Certificate Signing Request)：<ul><li>用Mac的Keychain Access这个软件，生成的「<code>.certSigningRequest</code>」文件</li><li>里面包含了「公钥」、「私钥」、「证书/Certificate」</li><li>上传到苹果开发者网站，让苹果「签名」，就会得到一个<code>.cert</code>文件。这样就能确认你的身份了（下载后双击安装）</li></ul></li></ul><p><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AppStoreRelease.png" alt="App Store Release"></p><p>黑框部分，是「发布证书」的生成，解决的是上述的「Can I trust you」这个问题。</p><p>黄框部分的Entitlement，解决的是上述「What do you want to do」这个问题。</p><p>红框部分，就是将「发布证书」、「App ID」（提前创建好的）、「Entitlement」这3个东西整合在一起，生成「App Store」类型的「Provisioning Profile」</p><p>蓝框部分：打包、上传了——利用Xcode得Archive &amp; Upload</p><h1 id="Ad-Hoc发布"><a href="#Ad-Hoc发布" class="headerlink" title="Ad Hoc发布"></a>Ad Hoc发布</h1><p><img src="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AdHocRelease.png" alt="Ad Hoc Release"></p><p>粉色框部分：因为Ad Hoc只能分发到特定手机，所以要到开发者王长，注册要安装App的手机（需要拿到手机的UDID）</p><p>黑框部分，是「发布证书」，因为上面「App Store发布」的时候，已经创建过「发布证书」了，这里可以用同样的「发布证书」，无需再重复创建。</p><p>红框部分，就是将「发布证书」、「App ID」（提前创建好的）、「Entitlement」、「Device List」这4个东西整合在一起，生成「Ad Hoc」类型的「Provisioning Profile」（和「App Store」类型会有些许差异）</p><p>蓝框部分：打包、导出ipa文件——利用Xcode得Archive &amp; Upload。然后ipa文件，可以手动安装到手机，也可以上传到第三方平台(<a href="https://deploygate.com/" target="_blank" rel="external">DeployGate</a>, <a href="https://www.pgyer.com/" target="_blank" rel="external">蒲公英</a> etc)，进行「无线安装」。或者自建服务器也可以。</p><p>毕。</p><p>下回预告：《Build Settings的那些破事儿》</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;——iOS签名那点儿破事儿&quot;&gt;&lt;a href=&quot;#——iOS签名那点儿破事儿&quot; class=&quot;headerlink&quot; title=&quot;——iOS签名那点儿破事儿&quot;&gt;&lt;/a&gt;——iOS签名那点儿破事儿&lt;/h1&gt;&lt;h1 id=&quot;背景&quot;&gt;&lt;a href=&quot;#背景&quot; cla
+      
+    
+    </summary>
+    
+      <category term="Technical" scheme="https://antony138.github.io/categories/Technical/"/>
+    
+    
+      <category term="iOS打包" scheme="https://antony138.github.io/tags/iOS%E6%89%93%E5%8C%85/"/>
+    
+  </entry>
   
   <entry>
     <title>2019</title>
