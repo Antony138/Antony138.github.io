@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
-  <title>Antony’s Blog</title>
+  <title>Antony’s Writing</title>
   
-  <subtitle>i am looking for FREEDOM.</subtitle>
+  <subtitle>looking for FREEDOM.</subtitle>
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://antony138.github.io/"/>
