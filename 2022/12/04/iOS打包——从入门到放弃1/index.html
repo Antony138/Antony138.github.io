@@ -97,23 +97,23 @@
 
 
 
-<meta name="description" content="——iOS签名那点儿破事儿背景首先来点context——为什么会有「签名」。 1970年代，在Unix上运行program/软件，不需要额外获取权限访问系统的硬件、数据（因为程序是自己写的——你应该不会给自己电脑「下毒」）。 后来，第三方软件出现，出于安全原因，需要对第三方软件的权限做出限制（请求同意后才能获取权限）——你应该不想出现这种情况：别人开发的软件，在不经你同意的情况下，读取了你D盘「C">
+<meta name="description" content="——iOS签名那点儿破事儿 背景首先来点context——为什么会有「签名」。 1970年代，在Unix上运行program/软件，不需要额外获取权限访问系统的硬件、数据（因为程序是自己写的——你应该不会给自己电脑「下毒」）。 后来，第三方软件出现，出于安全原因，需要对第三方软件的权限做出限制（请求同意后才能获取权限）——你应该不想出现这种情况：别人开发的软件，在不经你同意的情况下，读取了你D盘「">
 <meta name="keywords" content="iOS打包">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS打包——从入门到放弃(一)">
 <meta property="og:url" content="https://antony138.github.io/2022/12/04/iOS打包——从入门到放弃1/index.html">
 <meta property="og:site_name" content="Antony’s Blog">
-<meta property="og:description" content="——iOS签名那点儿破事儿背景首先来点context——为什么会有「签名」。 1970年代，在Unix上运行program/软件，不需要额外获取权限访问系统的硬件、数据（因为程序是自己写的——你应该不会给自己电脑「下毒」）。 后来，第三方软件出现，出于安全原因，需要对第三方软件的权限做出限制（请求同意后才能获取权限）——你应该不想出现这种情况：别人开发的软件，在不经你同意的情况下，读取了你D盘「C">
+<meta property="og:description" content="——iOS签名那点儿破事儿 背景首先来点context——为什么会有「签名」。 1970年代，在Unix上运行program/软件，不需要额外获取权限访问系统的硬件、数据（因为程序是自己写的——你应该不会给自己电脑「下毒」）。 后来，第三方软件出现，出于安全原因，需要对第三方软件的权限做出限制（请求同意后才能获取权限）——你应该不想出现这种情况：别人开发的软件，在不经你同意的情况下，读取了你D盘「">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AppSandbox.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/Term.jpg">
 <meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/Entitlement.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AppStoreRelease.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AdHocRelease.png">
-<meta property="og:updated_time" content="2022-12-03T17:12:43.180Z">
+<meta property="og:updated_time" content="2022-12-03T17:15:48.793Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS打包——从入门到放弃(一)">
-<meta name="twitter:description" content="——iOS签名那点儿破事儿背景首先来点context——为什么会有「签名」。 1970年代，在Unix上运行program/软件，不需要额外获取权限访问系统的硬件、数据（因为程序是自己写的——你应该不会给自己电脑「下毒」）。 后来，第三方软件出现，出于安全原因，需要对第三方软件的权限做出限制（请求同意后才能获取权限）——你应该不想出现这种情况：别人开发的软件，在不经你同意的情况下，读取了你D盘「C">
+<meta name="twitter:description" content="——iOS签名那点儿破事儿 背景首先来点context——为什么会有「签名」。 1970年代，在Unix上运行program/软件，不需要额外获取权限访问系统的硬件、数据（因为程序是自己写的——你应该不会给自己电脑「下毒」）。 后来，第三方软件出现，出于安全原因，需要对第三方软件的权限做出限制（请求同意后才能获取权限）——你应该不想出现这种情况：别人开发的软件，在不经你同意的情况下，读取了你D盘「">
 <meta name="twitter:image" content="https://raw.githubusercontent.com/Antony138/MarkdownPhotos/master/photos/2022articlesPhotos/CodeSigning_Provisioning/AppSandbox.jpg">
 
 
@@ -316,7 +316,7 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-12-04T02:09:22+08:00">
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2022-12-04T03:09:22+09:00">
                 2022-12-04
               </time>
             
@@ -387,7 +387,8 @@
       
 
       
-        <h1 id="——iOS签名那点儿破事儿"><a href="#——iOS签名那点儿破事儿" class="headerlink" title="——iOS签名那点儿破事儿"></a>——iOS签名那点儿破事儿</h1><h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>首先来点context——为什么会有「签名」。</p>
+        <h1 id="——iOS签名那点儿破事儿"><a href="#——iOS签名那点儿破事儿" class="headerlink" title="——iOS签名那点儿破事儿"></a>——iOS签名那点儿破事儿</h1><hr>
+<h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>首先来点context——为什么会有「签名」。</p>
 <p>1970年代，在Unix上运行program/软件，不需要额外获取权限访问系统的硬件、数据（因为程序是自己写的——你应该不会给自己电脑「下毒」）。</p>
 <p>后来，第三方软件出现，出于安全原因，需要对第三方软件的权限做出限制（请求同意后才能获取权限）——你应该不想出现这种情况：别人开发的软件，在不经你同意的情况下，读取了你D盘「Cooking」文件夹里面《<a href="https://www.bilibili.com/video/BV1FE411i7yn/?spm_id_from=333.337.search-card.all.click" target="_blank" rel="external">第一次做鸭的经历</a>》这个文件——虽然你鸭做得真的很好。</p>
 <p>所以，为了解决上面这个问题，Apple的工程师，想到的解决方案是<a href="https://developer.apple.com/documentation/security/app_sandbox?language=objc" target="_blank" rel="external">App Sandbox</a>——就是把第三方软件框在一个盒子里，想要用你的硬件(摄像头、麦克风)，或者访问你的数据，都要经过你的同意。</p>
